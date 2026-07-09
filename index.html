@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spokes & Specs | Premium Mobile Detailing</title>
+    <style>
+        :root {
+            --bg-black: #0a0a0a;
+            --bg-dark-grey: #16161a;
+            --bg-card: #222227;
+            --gold: #d4af37;
+            --gold-hover: #f3e5ab;
+            --white: #ffffff;
+            --text-muted: #a0a0ab;
+            --apple-radius: 12px;
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-black);
+            color: var(--white);
+            scroll-behavior: smooth;
+            padding-top: 80px;
+        }
+
+        /* --- NAVIGATION (Apple Style) --- */
+        header {
+            background-color: rgba(10, 10, 10, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--gold);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--apple-radius);
+            transition: var(--transition-smooth);
+            display: inline-block;
+        }
+
+        /* Enlarge and highlight animation on hover */
+        nav a:hover {
+            color: var(--white);
+            background-color: rgba(255, 255, 255, 0.08);
+            transform: scale(1.05);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .hero h1 span {
+            color: var(--gold);
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .req-badge {
+            background-color: rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .btn-gold {
+            background-color: var(--gold);
+            color: var(--bg-black);
+            padding: 0.8rem 2rem;
+            border-radius: var(--apple-radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+            display: inline-block;
+        }
+
+        .btn-gold:hover {
+            background-color: var(--gold-hover);
+            transform: translateY(-2px);
+        }
+
+        /* --- SECTION BASE STYLE --- */
+        section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        section h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        section h2 span {
+            color: var(--gold);
+        }
+
+        /* --- PRICES DROPDOWN (Accordions) --- */
+        .price-menu {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .accordion {
+            background-color: var(--bg-dark-grey);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--apple-radius);
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            transition: var(--transition-smooth);
+        }
+
+        .accordion-header:hover {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .accordion-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .accordion-icon {
+            color: var(--gold);
+            font-weight: bold;
+            transition: var(--transition-smooth);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .price-item span:last-child {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        /* --- ENQUIRIES & STEP SYSTEM --- */
+        .form-container {
+            background-color: var(--bg-dark-grey);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--apple-radius);
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 2.5rem;
+        }
+
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background-color: var(--bg-black);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--apple-radius);
+            color: var(--white);
+            outline: none;
+            font-size: 1rem;
+            transition: var(--transition-smooth);
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: var(--gold);
+        }
+
+        .step-title {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            color: var(--gold);
+        }
+
+        /* --- OUR WORK & AREAS --- */
+        .work-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .work-card {
+            background-color: var(--bg-dark-grey);
+            border-radius: var(--apple-radius);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .work-img-placeholder {
+            height: 200px;
+            background-color: #2a2a30;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .work-info {
+            padding: 1.5rem;
+        }
+
+        .work-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .work-info p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .areas-box {
+            text-align: center;
+            background: linear-gradient(135deg, var(--bg-dark-grey), var(--bg-black));
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 3rem;
+            border-radius: var(--apple-radius);
+        }
+
+        /* --- CONTACT & CANCELLATION --- */
+        .contact-details {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+        }
+
+        .contact-details a {
+            color: var(--gold);
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+
+        .cancel-box {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: var(--bg-dark-grey);
+            padding: 2rem;
+            border-radius: var(--apple-radius);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Mock Calendar styling */
+        .mock-cal {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .cal-day {
+            padding: 10px;
+            background: var(--bg-black);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .cal-day:hover {
+            background: var(--gold);
+            color: black;
+        }
+
+        @media (max-width: 768px) {
+            nav ul { display: none; } /* Simplified mobile handling */
+            .hero h1 { font-size: 2.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV BAR -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">Spokes<span>&</span>Specs</a>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#prices">Prices</a></li>
+                    <li><a href="#enquiries">Book Now</a></li>
+                    <li><a href="#work">Our Work</a></li>
+                    <li><a href="#cancel">Cancellation</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="req-badge">⚠️ Requirement: Outdoor Tap & Electricity Outlet Required</div>
+        <h1>Precision Detailing.<br><span>Showroom Finish.</span></h1>
+        <p>Premium mobile automotive detailing across East London and Essex.</p>
+        <a href="#enquiries" class="btn-gold">Start Booking Enquiry</a>
+    </section>
+
+    <!-- PRICES SECTION -->
+    <section id="prices">
+        <h2>Menu <span>& Pricing</span></h2>
+        <div class="price-menu">
+            
+            <div class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <h3>Interior Detail</h3>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="price-item"><span>Opt 1: Basic Interior Detail</span><span>From £20</span></div>
+                    <div class="price-item"><span>Opt 2: Deep Clean Interior Detail (Restores upholstery, leather & Alcantara)</span><span>From £30</span></div>
+                </div>
+            </div>
+
+            <div class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <h3>Exterior Detail</h3>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="price-item"><span>Opt 1: Basic Contact Detail (Inc. Pre-wash)</span><span>From £25</span></div>
+                    <div class="price-item"><span>Opt 2: Deep Contact Detail (Inc. Separate Step Wheel Clean)</span><span>From £35</span></div>
+                </div>
+            </div>
+
+            <div class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <h3>Exterior Protection</h3>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="price-item"><span>Opt 1: Basic Wax Protection</span><span>+£10</span></div>
+                    <div class="price-item"><span>Opt 2: Ceramic Protection</span><span>+£15</span></div>
+                    <div class="price-item"><span>Opt 3: Ceramic Protection + Sun & UV Protection</span><span>+£20</span></div>
+                </div>
+            </div>
+
+            <div class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <h3>Exclusive Bundles</h3>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="price-item"><span>Opt 1: Basic Full Detail</span><span>£40</span></div>
+                    <div class="price-item"><span>Opt 2: Deep Full Detail</span><span>From £55</span></div>
+                    <div class="price-item"><span>Opt 3: Deep Full Detail + Ceramic & UV Protection</span><span>From £60</span></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ENQUIRIES / BOOKING STEP SYSTEM -->
+    <section id="enquiries">
+        <h2>Booking <span>Enquiry</span></h2>
+        <div class="form-container">
+            <form id="bookingForm" onsubmit="handleFormSubmit(event)">
+                
+                <!-- Step 1: Vehicle & Contact Info -->
+                <div class="form-step active" id="step1">
+                    <div class="step-title">Step 1: Vehicle & Contact Info</div>
+                    <div class="input-group"><label>Full Name</label><input type="text" required></div>
+                    <div class="input-group"><label>Phone Number</label><input type="tel" required></div>
+                    <div class="input-group"><label>Home Address</label><input type="text" required></div>
+                    <div class="input-group"><label>Vehicle Registration (Reg)</label><input type="text" required style="text-transform: uppercase;"></div>
+                    <div class="input-group"><label>Vehicle Make/Model</label><input type="text" required></div>
+                    <div class="input-group"><label>Vehicle Colour</label><input type="text" required></div>
+                    <button type="button" class="btn-gold" onclick="nextStep(2)">Next: Choose Package</button>
+                </div>
+
+                <!-- Step 2: Choose Tier Options -->
+                <div class="form-step" id="step2">
+                    <div class="step-title">Step 2: Select Your Service</div>
+                    <div class="input-group">
+                        <label>Select Package Option</label>
+                        <select required>
+                            <option value="">-- Select custom option or bundle --</option>
+                            <option>Interior Opt 1: Basic Interior Detail - £20</option>
+                            <option>Interior Opt 2: Deep Clean Interior - £30</option>
+                            <option>Exterior Opt 1: Basic Contact Detail - £25</option>
+                            <option>Exterior Opt 2: Deep Contact Detail - £35</option>
+                            <option>Bundle Opt 1: Basic Full Detail - £40</option>
+                            <option>Bundle Opt 2: Deep Full Detail - £55</option>
+                            <option>Bundle Opt 3: Deep Full Detail + Ceramic & UV - £60</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Add Optional Add-on Protection</label>
+                        <select>
+                            <option value="none">None</option>
+                            <option>Basic Wax Protection (+£10)</option>
+                            <option>Ceramic Protection (+£15)</option>
+                            <option>Ceramic + Sun & UV Protection (+£20)</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn-gold" style="background:#444; color:white; margin-right:10px;" onclick="nextStep(1)">Back</button>
+                    <button type="button" class="btn-gold" onclick="nextStep(3)">Next: Choose Date</button>
+                </div>
+
+                <!-- Step 3: Date & Calendar Booking -->
+                <div class="form-step" id="step3">
+                    <div class="step-title">Step 3: Select Available Slot</div>
+                    <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:1rem;">Select an upcoming available delivery slot below:</p>
+                    <div class="mock-cal">
+                        <div class="cal-day" onclick="selectDate(this)">Mon 13<br>09:00</div>
+                        <div class="cal-day" onclick="selectDate(this)">Mon 13<br>13:00</div>
+                        <div class="cal-day" onclick="selectDate(this)">Tue 14<br>10:00</div>
+                        <div class="cal-day" onclick="selectDate(this)">Wed 15<br>09:00</div>
+                        <div class="cal-day" onclick="selectDate(this)">Thu 16<br>14:00</div>
+                    </div>
+                    <input type="hidden" id="selectedDateVal" required>
+                    <div style="margin-top:2rem;">
+                        <button type="button" class="btn-gold" style="background:#444; color:white; margin-right:10px;" onclick="nextStep(2)">Back</button>
+                        <button type="submit" class="btn-gold">Submit & Confirm Booking</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- OUR WORK -->
+    <section id="work">
+        <h2>Our <span>Work</span></h2>
+        <div class="work-grid">
+            <div class="work-card">
+                <div class="work-img-placeholder">📸 [Insert Before/After Image]</div>
+                <div class="work-info"><h3>Basic Interior Detail</h3><p>Vacuum extraction, careful panel wipe down, clean glass clear clarity.</p></div>
+            </div>
+            <div class="work-card">
+                <div class="work-img-placeholder">📸 [Insert Before/After Image]</div>
+                <div class="work-info"><h3>Deep Interior Detail</h3><p>Full steam sterilization, wet upholstery shampoo extraction, Alcantara conditioning.</p></div>
+            </div>
+            <div class="work-card">
+                <div class="work-img-placeholder">📸 [Insert Before/After Image]</div>
+                <div class="work-info"><h3>Basic Exterior Detail</h3><p>Pre-wash snow foam layer followed by precise hand-contact two-bucket clean.</p></div>
+            </div>
+            <div class="work-card">
+                <div class="work-img-placeholder">📸 [Insert Before/After Image]</div>
+                <div class="work-info"><h3>Deep Exterior Detail</h3><p>Includes separate heavy iron and wheel rim decontamination cycles.</p></div>
+            </div>
+        </div>
+
+        <div class="areas-box">
+            <h3>Areas We Cover</h3>
+            <p style="color: var(--gold); margin-top: 1rem; font-size: 1.2rem; font-weight: 600;">East London & Essex (Grays / surrounding areas)</p>
+        </div>
+    </section>
+
+    <!-- CANCELLATION -->
+    <section id="cancel">
+        <h2>Manage <span>Booking</span></h2>
+        <div class="cancel-box">
+            <h3 style="margin-bottom:1rem; font-size:1.1rem;">Cancel Appointment</h3>
+            <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:1.5rem;">To request a dynamic booking modification, type your registered plate code below:</p>
+            <div class="input-group"><input type="text" placeholder="E.g. LF61 REG" style="text-transform:uppercase; text-align:center;"></div>
+            <button class="btn-gold" style="background-color:#ef4444; color:white;" onclick="alert('Inquiry sent to system database. Admin check pending.')">Search & Cancel</button>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section style="text-align:center;">
+        <h2>Contact <span>Us</span></h2>
+        <div class="contact-details">
+            <p>Direct Phone line: <a href="tel:07733808319">07733808319</a></p>
+            <p style="margin-top:1rem;">Email Address: <a href="mailto:spokesandspecs@gmail.com">spokesandspecs@gmail.com</a></p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Spokes & Specs. Est. Grays, Essex. Fully Insured Master Mechanics & Detailers.</p>
+    </footer>
+
+    <!-- INTERACTION LOGIC SCRIPT -->
+    <script>
+        function toggleAccordion(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.accordion-icon');
+            if (content.style.maxHeight && content.style.maxHeight !== "0px") {
+                content.style.maxHeight = "0px";
+                icon.innerText = "+";
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+                icon.innerText = "−";
+            }
+        }
+
+        function nextStep(stepNum) {
+            document.querySelectorAll('.form-step').forEach(step => step.classList.remove('active'));
+            document.getElementById('step' + stepNum).classList.add('active');
+        }
+
+        function selectDate(element) {
+            document.querySelectorAll('.cal-day').forEach(d => d.style.background = '#0a0a0a').style.color = 'white';
+            element.style.background = 'var(--gold)';
+            element.style.color = 'black';
+            document.getElementById('selectedDateVal').value = element.innerText.replace('\n', ' ');
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            alert('Enquiry Submitted Successfully! (Connect an active processing form webhook to log appointments).');
+        }
+    </script>
+</body>
+</html>
