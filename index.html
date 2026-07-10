@@ -33,7 +33,7 @@
             scroll-behavior: smooth;
         }
 
-        /* --- IMMERSIVE SCROLL CINEMA ENGINE --- */
+        /* --- CINEMATIC MULTI-ANGLE SIDE ENGINE --- */
         #cinema-container {
             position: fixed;
             top: 0;
@@ -44,56 +44,44 @@
             pointer-events: none;
             display: flex;
             justify-content: space-between;
-            padding: 0 2%;
+            padding: 0 1.5%;
         }
 
         .cinema-column {
-            width: 30%;
+            width: 26%;
             height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            opacity: 0.22;
-            transition: var(--transition-ux);
+            opacity: 0.25;
         }
 
-        /* High-Performance Interactive Viewport simulating clean multi-angle profiles */
         .m3-viewport-proxy {
             width: 100%;
-            height: 550px;
+            height: 80vh;
             border-left: 1px solid var(--luxury-gold);
             border-right: 1px solid rgba(255, 255, 255, 0.05);
             position: relative;
-            transform-style: preserve-3d;
-            perspective: 1200px;
-            transition: transform 0.1s ease-out;
-            background: linear-gradient(180deg, rgba(20,20,20,0.4) 0%, transparent 100%);
             border-radius: var(--radius-apple);
+            overflow: hidden;
+            background-color: #08080a;
         }
 
-        .m3-car-silhouette {
+        .parallax-bg-frame {
             position: absolute;
-            top: 35%;
-            left: 10%;
-            width: 80%;
-            height: 40%;
-            border: 2px dashed rgba(212, 175, 55, 0.3);
-            border-radius: 50% 50% 10px 10px;
-            transform: translateZ(30px);
-            transition: var(--transition-ux);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: opacity 0.5s ease-in-out, transform 0.1s ease-out;
+            opacity: 0;
         }
 
-        .m3-car-silhouette::after {
-            content: 'M3 PROFILE';
-            position: absolute;
-            bottom: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.65rem;
-            color: var(--luxury-gold);
-            letter-spacing: 0.2em;
-            font-weight: 600;
+        .parallax-bg-frame.active {
+            opacity: 0.6;
         }
 
         .m3-surface-line {
@@ -103,7 +91,7 @@
             background: linear-gradient(90deg, var(--luxury-gold), transparent);
             box-shadow: 0 0 12px var(--luxury-gold);
             top: 50%;
-            transform: translateZ(60px);
+            z-index: 5;
         }
 
         /* --- NAVIGATION HEADER --- */
@@ -134,20 +122,20 @@
         }
 
         .brand-main {
-            font-size: 1.35rem;
+            font-size: 1.45rem;
             font-weight: 700;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.06em;
             color: var(--pure-white);
             text-transform: uppercase;
         }
 
         .brand-sub {
-            font-size: 0.65rem;
-            font-weight: 500;
-            letter-spacing: 0.32em;
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 0.35em;
             color: var(--luxury-gold);
             text-transform: uppercase;
-            margin-top: 0.1rem;
+            margin-top: 0.15rem;
         }
 
         nav ul {
@@ -169,10 +157,10 @@
         nav a:hover {
             color: var(--pure-white);
             background-color: rgba(255, 255, 255, 0.06);
-            transform: scale(1.06);
+            transform: scale(1.05);
         }
 
-        /* --- CORE STRUCTURAL FOREGROUND --- */
+        /* --- CORE FOREGROUND FRAMEWORK --- */
         main {
             position: relative;
             z-index: 10;
@@ -198,7 +186,7 @@
             color: var(--luxury-gold);
         }
 
-        /* --- HOMEPAGE SECTION --- */
+        /* --- HOMEPAGE / HERO --- */
         .hero-panel {
             text-align: center;
             padding: 10rem 0 6rem 0;
@@ -257,7 +245,7 @@
             box-shadow: 0 0 20px var(--luxury-gold-glow);
         }
 
-        /* --- ACCORDION SYSTEM (PRICES) --- */
+        /* --- PRICING TABLES --- */
         .menu-wrapper {
             display: flex;
             flex-direction: column;
@@ -322,7 +310,7 @@
             font-size: 1.05rem;
         }
 
-        /* --- TRANSACTION ENQUIRY FLOW --- */
+        /* --- INTERACTIVE ENQUIRY REGISTRY --- */
         .interactive-form-box {
             background-color: var(--apple-dark-grey);
             border: 1px solid var(--border-tint);
@@ -376,7 +364,6 @@
             border-color: var(--luxury-gold);
         }
 
-        /* Dynamic Options Grid layout */
         .options-block {
             border: 1px solid var(--border-tint);
             border-radius: var(--radius-apple);
@@ -464,7 +451,6 @@
             border-color: var(--muted-gray);
         }
 
-        /* Calendar grid setup */
         .calendar-ui {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -495,7 +481,7 @@
             border-color: var(--luxury-gold);
         }
 
-        /* --- WORK PORTFOLIO GALLERY --- */
+        /* --- WORK GALLERY SHOWCASE --- */
         .portfolio-stack {
             display: flex;
             flex-direction: column;
@@ -549,7 +535,6 @@
             line-height: 1.5;
         }
 
-        /* --- REGION COVERAGE ZONE --- */
         .coverage-badge-box {
             margin-top: 2rem;
             background-color: var(--apple-dark-grey);
@@ -571,7 +556,6 @@
             font-size: 1.2rem;
         }
 
-        /* --- FOOTER & COMPLIANCE --- */
         footer {
             text-align: center;
             padding: 4rem 2rem;
@@ -588,23 +572,29 @@
 </head>
 <body>
 
-    <!-- ABSTRACT 3D SCROLL PERSPECTIVE SYSTEM (CINEMA BACKDROP) -->
+    <!-- INTERACTIVE BACKGROUND SCROLL PARALLAX FRAME SYSTEM -->
     <div id="cinema-container">
         <div class="cinema-column">
-            <div class="m3-viewport-proxy" id="left-viewport">
-                <div class="m3-car-silhouette" id="left-silhouette"></div>
+            <div class="m3-viewport-proxy">
+                <div class="parallax-bg-frame active" id="left-f1" style="background-image: url('./IMG_7682.jpg');"></div>
+                <div class="parallax-bg-frame" id="left-f2" style="background-image: url('./IMG_7680.jpeg');"></div>
+                <div class="parallax-bg-frame" id="left-f3" style="background-image: url('./IMG_7686.jpg');"></div>
+                <div class="parallax-bg-frame" id="left-f4" style="background-image: url('./IMG_7681.jpg');"></div>
                 <div class="m3-surface-line"></div>
             </div>
         </div>
         <div class="cinema-column">
-            <div class="m3-viewport-proxy" id="right-viewport">
-                <div class="m3-car-silhouette" id="right-silhouette"></div>
-                <div class="m3-surface-line" style="animation-delay: 0.2s;"></div>
+            <div class="m3-viewport-proxy">
+                <div class="parallax-bg-frame active" id="right-f1" style="background-image: url('./IMG_7682.jpg');"></div>
+                <div class="parallax-bg-frame" id="right-f2" style="background-image: url('./IMG_7680.jpeg');"></div>
+                <div class="parallax-bg-frame" id="right-f3" style="background-image: url('./IMG_7686.jpg');"></div>
+                <div class="parallax-bg-frame" id="right-f4" style="background-image: url('./IMG_7681.jpg');"></div>
+                <div class="m3-surface-line"></div>
             </div>
         </div>
     </div>
 
-    <!-- HEADER / NAVIGATION -->
+    <!-- NAVIGATION HEADER -->
     <header>
         <div class="nav-wrapper">
             <div class="brand-container">
@@ -622,10 +612,9 @@
         </div>
     </header>
 
-    <!-- CORE FRAMEWORK CONTENT CONTAINER -->
     <main>
 
-        <!-- HOMEPAGE / HERO -->
+        <!-- HERO PANEL -->
         <section class="hero-panel">
             <div class="requirement-callout">
                 <span>Requirement:</span> Outdoor Tap & Electricity Outlet Access Required
@@ -635,7 +624,7 @@
             <a href="#enquiries" class="action-button">Begin Interactive Booking</a>
         </section>
 
-        <!-- DYNAMIC DROPDOWN MENU (PRICES) -->
+        <!-- PRICING SECTIONS -->
         <section id="prices">
             <h2 class="section-title">Menu <span>& Tier Pricing</span></h2>
             <div class="menu-wrapper">
@@ -719,35 +708,30 @@
             </div>
         </section>
 
-        <!-- TRANSACTION BOOKING SYSTEM WITH DEPENDENCY CONSTRAINT LOGIC -->
+        <!-- BOOKING REGISTRY FORM -->
         <section id="enquiries">
             <h2 class="section-title">Detail <span>Enquiry Registry</span></h2>
             <div class="interactive-form-box">
                 <form id="masterForm" onsubmit="executeFinalBooking(event)">
                     
-                    <!-- STEP 1: CONTACT PROFILE AND METRICS -->
                     <div class="flow-step active" id="stepSegment-1">
                         <div class="step-indicator">Step 01 / 03</div>
                         <div class="step-heading">Client & Vehicle Identity Matrix</div>
-                        
                         <div class="field-group"><label>Client Full Name</label><input type="text" required></div>
                         <div class="field-group"><label>Mobile Contact Line</label><input type="tel" required></div>
                         <div class="field-group"><label>Home Base Location Address</label><input type="text" required></div>
                         <div class="field-group"><label>Vehicle Registration Code (VRM/Reg)</label><input type="text" required style="text-transform: uppercase;"></div>
                         <div class="field-group"><label>Vehicle Make & Model Specification</label><input type="text" required></div>
                         <div class="field-group"><label>Observed Paintwork Factory Colour</label><input type="text" required></div>
-                        
                         <div class="btn-container">
                             <button type="button" class="btn-nav-step primary" onclick="renderStep(2)">Proceed to Configuration</button>
                         </div>
                     </div>
 
-                    <!-- STEP 2: DEPENDENCY-LOCKED PACKAGE MATRIX -->
                     <div class="flow-step" id="stepSegment-2">
                         <div class="step-indicator">Step 02 / 03</div>
                         <div class="step-heading">Select Treatment Tiers</div>
                         
-                        <!-- Comprehensive Bundles Block -->
                         <div class="options-block" style="border-color: var(--luxury-gold);">
                             <div class="options-block-title">Comprehensive Bundles (Locks Modular Categories)</div>
                             <div class="selection-row">
@@ -769,7 +753,6 @@
                         </div>
 
                         <div id="modular-options-container">
-                            <!-- Interior Options Block -->
                             <div class="options-block">
                                 <div class="options-block-title">Modular Interior Treatments</div>
                                 <div class="selection-row">
@@ -782,7 +765,6 @@
                                 </div>
                             </div>
 
-                            <!-- Exterior Options Block -->
                             <div class="options-block">
                                 <div class="options-block-title">Modular Exterior Treatments</div>
                                 <div class="selection-row">
@@ -795,7 +777,6 @@
                                 </div>
                             </div>
 
-                            <!-- Protection Options Block -->
                             <div class="options-block">
                                 <div class="options-block-title">Modular Paintwork Protection Add-ons</div>
                                 <div class="selection-row">
@@ -822,7 +803,6 @@
                         </div>
                     </div>
 
-                    <!-- STEP 3: TRANSACTION SCHEDULER MATRIX -->
                     <div class="flow-step" id="stepSegment-3">
                         <div class="step-indicator">Step 03 / 03</div>
                         <div class="step-heading">Select Appointment Slot</div>
@@ -846,13 +826,13 @@
             </div>
         </section>
 
-        <!-- LIVE PORTFOLIO WORK HIGHLIGHTS -->
+        <!-- LIVE PORTFOLIO GALLERY WORK HIGHLIGHTS -->
         <section id="work">
             <h2 class="section-title">Detail Log <span>& Work Execution</span></h2>
             <div class="portfolio-stack">
                 
                 <div class="portfolio-item">
-                    <div class="portfolio-media"><img src="IMG_7680.jpeg" alt="Basic Interior Detail"></div>
+                    <div class="portfolio-media"><img src="./IMG_7680.jpeg" alt="Basic Interior Detail"></div>
                     <div class="portfolio-details">
                         <h3>Basic Interior Detail</h3>
                         <p>Complete multi-surface high-power vacuum extraction, careful dash fascia instrumentation alignment dressing, and interior visual clarity optimization clearing glass structures cleanly.</p>
@@ -860,7 +840,7 @@
                 </div>
 
                 <div class="portfolio-item">
-                    <div class="portfolio-media"><img src="IMG_7686.jpg" alt="Deep Interior Detail"></div>
+                    <div class="portfolio-media"><img src="./IMG_7686.jpg" alt="Deep Interior Detail"></div>
                     <div class="portfolio-details">
                         <h3>Deep Interior Detail</h3>
                         <p>Hyperbaric chemical steam sanitization processing, complete deep carpet fiber wet-vacuum upholstery fluid extraction, leather reconditioning, and delicate microfiber nap setting for steering configurations.</p>
@@ -868,7 +848,7 @@
                 </div>
 
                 <div class="portfolio-item">
-                    <div class="portfolio-media"><img src="IMG_7682.jpg" alt="Basic Exterior Detail"></div>
+                    <div class="portfolio-media"><img src="./IMG_7682.jpg" alt="Basic Exterior Detail"></div>
                     <div class="portfolio-details">
                         <h3>Basic Exterior Detail</h3>
                         <p>High-cling surface safe snow foam encapsulation pre-wash layer, running fluid dirt suspension rinsing, followed by careful two-bucket individual scratch-prevention contact washing protocols.</p>
@@ -876,7 +856,7 @@
                 </div>
 
                 <div class="portfolio-item">
-                    <div class="portfolio-media"><img src="IMG_7681.jpg" alt="Deep Exterior Detail"></div>
+                    <div class="portfolio-media"><img src="./IMG_7681.jpg" alt="Deep Exterior Detail"></div>
                     <div class="portfolio-details">
                         <h3>Deep Exterior Detail</h3>
                         <p>Multi-stage clear lacquer chemical paintwork iron decontamination wash, manual deep wheel barrel breakdown cycles, and fine split geometric arch structure detailing.</p>
@@ -885,14 +865,13 @@
 
             </div>
 
-            <!-- REGIONAL DOMAIN COVERAGE -->
             <div class="coverage-badge-box">
                 <h4>Verified Regional Deployment Boundaries</h4>
                 <p>East London & Essex (Grays / Surrounding Proximities)</p>
             </div>
         </section>
 
-        <!-- COMPLIANT MANAGED CANCELLATION FLOW -->
+        <!-- CANCELLATION LEDGER -->
         <section style="border-bottom:none;">
             <h2 class="section-title">Revocation <span>& Adjustments</span></h2>
             <div class="interactive-form-box" style="background-color: #111; border-color: rgba(239, 68, 68, 0.2); text-align: center;">
@@ -907,19 +886,15 @@
 
     </main>
 
-    <!-- FOOTER LEDGER COMPLIANCE -->
     <footer>
         <p style="margin-bottom: 1rem; color: var(--luxury-gold); font-weight: 500; letter-spacing: 0.05em;">SPOKES & SPECS &copy; 2026. ALL RIGHTS RESERVED.</p>
         <p style="font-size: 0.75rem; color: #555;">Fully Insured Mobile Engineering Operations Framework. Registered Dispatch Hub: Grays, Essex.</p>
     </footer>
 
-    <!-- CLIENT INTERACTIVE SCRIPT LOGIC -->
     <script>
-        // Dropdown Accordion Architecture
         function handleDropdown(element) {
             const bodyContent = element.nextElementSibling;
             const iconMarker = element.querySelector('.dropdown-icon');
-            
             if (bodyContent.style.maxHeight && bodyContent.style.maxHeight !== "0px") {
                 bodyContent.style.maxHeight = "0px";
                 iconMarker.style.transform = "rotate(0deg)";
@@ -931,13 +906,11 @@
             }
         }
 
-        // Multi-Step Form Logic Flow State Handler
         function renderStep(targetStepNum) {
             document.querySelectorAll('.flow-step').forEach(block => block.classList.remove('active'));
             document.getElementById('stepSegment-' + targetStepNum).classList.add('active');
         }
 
-        // Choice Control Logic Engine (Bundle Lockout Fix)
         function evaluateConstraints() {
             const modularContainer = document.getElementById('modular-options-container');
             const lockoutWarningText = document.getElementById('lockout-warning');
@@ -962,45 +935,43 @@
             }
         }
 
-        // Selection engine for mock schedule allocations
         function selectTimeSlot(element) {
             document.querySelectorAll('.calendar-slot').forEach(slot => slot.classList.remove('selected'));
             element.classList.add('selected');
             document.getElementById('internalSelectedTime').value = element.innerText.replace('\n', ' ');
         }
 
-        // Execute form logging action simulation
         function executeFinalBooking(event) {
             event.preventDefault();
             alert('Enquiry Protocol Logged. Transaction packet generated successfully and forwarded to administrator dashboard.');
         }
 
-        // Smooth Scroll-Bound Perspective Shift Engine
+        // SCROLL-BOUND PORTFOLIO LAYER SWITCHER ENGINE
         window.addEventListener('scroll', () => {
             const currentScrollTop = window.scrollY;
             const absoluteMaxHeight = document.documentElement.scrollHeight - window.innerHeight;
             const scrollRatio = absoluteMaxHeight > 0 ? (currentScrollTop / absoluteMaxHeight) : 0;
             
-            const leftBox = document.getElementById('left-viewport');
-            const rightBox = document.getElementById('right-viewport');
-            const leftSilhouette = document.getElementById('left-silhouette');
-            const rightSilhouette = document.getElementById('right-silhouette');
+            // Calculate which image frame index should activate based on position
+            let stageIndex = 1;
+            if (scrollRatio > 0.25) stageIndex = 2;
+            if (scrollRatio > 0.55) stageIndex = 3;
+            if (scrollRatio > 0.82) stageIndex = 4;
 
-            // Complex rotation calculations mimicking physical camera truck shots around front/rear profiles
-            const leftRotation = (scrollRatio * 180);
-            const rightRotation = -(scrollRatio * 180);
-            const depthTranslation = Math.sin(scrollRatio * Math.PI) * 70;
-
-            if (leftBox && rightBox) {
-                leftBox.style.transform = `rotateY(${leftRotation}deg) translateZ(${depthTranslation}px)`;
-                rightBox.style.transform = `rotateY(${rightRotation}deg) translateZ(${depthTranslation}px)`;
-            }
-            
-            // Adjust silhouette rounding to represent changing vehicle angles
-            if (leftSilhouette && rightSilhouette) {
-                const cornerRadius = 50 - (scrollRatio * 40);
-                leftSilhouette.style.borderRadius = `${cornerRadius}% ${50 - cornerRadius}% 10px 10px`;
-                rightSilhouette.style.borderRadius = `${50 - cornerRadius}% ${cornerRadius}% 10px 10px`;
+            // Update Left and Right Sidebars Simultaneously
+            for (let side of ['left', 'right']) {
+                for (let i = 1; i <= 4; i++) {
+                    const frame = document.getElementById(`${side}-f${i}`);
+                    if (frame) {
+                        if (i === stageIndex) {
+                            frame.classList.add('active');
+                            // Create subtle interactive movement within the crop frame
+                            frame.style.transform = `scale(${1.05 + (scrollRatio * 0.05)}) translateY(${(scrollRatio * -15)}px)`;
+                        } else {
+                            frame.classList.remove('active');
+                        }
+                    }
+                }
             }
         });
     </script>
