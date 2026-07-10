@@ -576,19 +576,19 @@
     <div id="cinema-container">
         <div class="cinema-column">
             <div class="m3-viewport-proxy">
-                <div class="parallax-bg-frame active" id="left-f1" style="background-image: url('IMG_7682.jpg');"></div>
+                <div class="parallax-bg-frame active" id="left-f1" style="background-image: url('IMG_7682.png');"></div>
                 <div class="parallax-bg-frame" id="left-f2" style="background-image: url('IMG_7680.jpeg');"></div>
-                <div class="parallax-bg-frame" id="left-f3" style="background-image: url('IMG_7686.jpg');"></div>
-                <div class="parallax-bg-frame" id="left-f4" style="background-image: url('IMG_7681.jpg');"></div>
+                <div class="parallax-bg-frame" id="left-f3" style="background-image: url('IMG_7686.jpeg');"></div>
+                <div class="parallax-bg-frame" id="left-f4" style="background-image: url('IMG_7681.jpeg');"></div>
                 <div class="m3-surface-line"></div>
             </div>
         </div>
         <div class="cinema-column">
             <div class="m3-viewport-proxy">
-                <div class="parallax-bg-frame active" id="right-f1" style="background-image: url('IMG_7682.jpg');"></div>
+                <div class="parallax-bg-frame active" id="right-f1" style="background-image: url('IMG_7682.png');"></div>
                 <div class="parallax-bg-frame" id="right-f2" style="background-image: url('IMG_7680.jpeg');"></div>
-                <div class="parallax-bg-frame" id="right-f3" style="background-image: url('IMG_7686.jpg');"></div>
-                <div class="parallax-bg-frame" id="right-f4" style="background-image: url('IMG_7681.jpg');"></div>
+                <div class="parallax-bg-frame" id="right-f3" style="background-image: url('IMG_7686.jpeg');"></div>
+                <div class="parallax-bg-frame" id="right-f4" style="background-image: url('IMG_7681.jpeg');"></div>
                 <div class="m3-surface-line"></div>
             </div>
         </div>
@@ -840,7 +840,7 @@
                 </div>
 
                 <div class="portfolio-item">
-                    <div class="portfolio-media"><img src="IMG_7686.jpg" alt="Deep Interior Detail"></div>
+                    <div class="portfolio-media"><img src="IMG_7686.jpeg" alt="Deep Interior Detail"></div>
                     <div class="portfolio-details">
                         <h3>Deep Interior Detail</h3>
                         <p>Hyperbaric chemical steam sanitization processing, complete deep carpet fiber wet-vacuum upholstery fluid extraction, leather reconditioning, and delicate microfiber nap setting for steering configurations.</p>
@@ -848,7 +848,7 @@
                 </div>
 
                 <div class="portfolio-item">
-                    <div class="portfolio-media"><img src="IMG_7682.jpg" alt="Basic Exterior Detail"></div>
+                    <div class="portfolio-media"><img src="IMG_7682.png" alt="Basic Exterior Detail"></div>
                     <div class="portfolio-details">
                         <h3>Basic Exterior Detail</h3>
                         <p>High-cling surface safe snow foam encapsulation pre-wash layer, running fluid dirt suspension rinsing, followed by careful two-bucket individual scratch-prevention contact washing protocols.</p>
@@ -856,7 +856,7 @@
                 </div>
 
                 <div class="portfolio-item">
-                    <div class="portfolio-media"><img src="IMG_7681.jpg" alt="Deep Exterior Detail"></div>
+                    <div class="portfolio-media"><img src="IMG_7681.jpeg" alt="Deep Exterior Detail"></div>
                     <div class="portfolio-details">
                         <h3>Deep Exterior Detail</h3>
                         <p>Multi-stage clear lacquer chemical paintwork iron decontamination wash, manual deep wheel barrel breakdown cycles, and fine split geometric arch structure detailing.</p>
@@ -880,7 +880,9 @@
                 <div class="field-group">
                     <input type="text" placeholder="ENTER REGISTRATION CODE" style="text-transform: uppercase; text-align: center; max-width: 320px; margin: 0 auto; letter-spacing: 0.1em; border-color: rgba(255,255,255,0.15);">
                 </div>
-                <button class="btn-nav-step" style="background-color: #ef4444; color: white; max-width: 240px; display: inline-block;" onclick="alert('Query transmitted. Secure internal registry confirmation sequence pending manual administrative clearance.')">Search & Revoke Slot</button>
+                <div style="margin-top: 1.5rem;">
+                    <button class="btn-nav-step" style="background-color: #ef4444; color: white; max-width: 240px; display: inline-block;" onclick="alert('Query transmitted. Secure internal registry confirmation sequence pending manual administrative clearance.')">Search & Revoke Slot</button>
+                </div>
             </div>
         </section>
 
@@ -952,17 +954,20 @@
             const absoluteMaxHeight = document.documentElement.scrollHeight - window.innerHeight;
             const scrollRatio = absoluteMaxHeight > 0 ? (currentScrollTop / absoluteMaxHeight) : 0;
             
+            // Calculate which image frame index should activate based on position
             let stageIndex = 1;
             if (scrollRatio > 0.25) stageIndex = 2;
             if (scrollRatio > 0.55) stageIndex = 3;
             if (scrollRatio > 0.82) stageIndex = 4;
 
+            // Update Left and Right Sidebars Simultaneously
             for (let side of ['left', 'right']) {
                 for (let i = 1; i <= 4; i++) {
                     const frame = document.getElementById(`${side}-f${i}`);
                     if (frame) {
                         if (i === stageIndex) {
                             frame.classList.add('active');
+                            // Create subtle interactive movement within the crop frame
                             frame.style.transform = `scale(${1.05 + (scrollRatio * 0.05)}) translateY(${(scrollRatio * -15)}px)`;
                         } else {
                             frame.classList.remove('active');
