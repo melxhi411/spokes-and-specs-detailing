@@ -76,7 +76,7 @@
             height: 100%;
             background-size: cover;
             background-position: center;
-            transition: opacity 0.5s ease-in-out, transform 0.1s ease-out;
+            transition: opacity 0.4s ease-in-out, transform 0.1s ease-out;
             opacity: 0;
         }
 
@@ -578,7 +578,7 @@
             <div class="m3-viewport-proxy">
                 <div class="parallax-bg-frame active" id="left-f1" style="background-image: url('IMG_7682.png');"></div>
                 <div class="parallax-bg-frame" id="left-f2" style="background-image: url('IMG_7680.jpeg');"></div>
-                <div class="parallax-bg-frame" id="left-f3" style="background-image: url('IMG_7686.jpeg');"></div>
+                <div class="parallax-bg-frame" id="left-f3" style="background-image: url('IMG_7679.jpeg');"></div>
                 <div class="parallax-bg-frame" id="left-f4" style="background-image: url('IMG_7681.jpeg');"></div>
                 <div class="m3-surface-line"></div>
             </div>
@@ -587,7 +587,7 @@
             <div class="m3-viewport-proxy">
                 <div class="parallax-bg-frame active" id="right-f1" style="background-image: url('IMG_7682.png');"></div>
                 <div class="parallax-bg-frame" id="right-f2" style="background-image: url('IMG_7680.jpeg');"></div>
-                <div class="parallax-bg-frame" id="right-f3" style="background-image: url('IMG_7686.jpeg');"></div>
+                <div class="parallax-bg-frame" id="right-f3" style="background-image: url('IMG_7679.jpeg');"></div>
                 <div class="parallax-bg-frame" id="right-f4" style="background-image: url('IMG_7681.jpeg');"></div>
                 <div class="m3-surface-line"></div>
             </div>
@@ -848,7 +848,7 @@
                 </div>
 
                 <div class="portfolio-item">
-                    <div class="portfolio-media"><img src="IMG_7682.png" alt="Basic Exterior Detail"></div>
+                    <div class="portfolio-media"><img src="IMG_7679.jpeg" alt="Basic Exterior Detail"></div>
                     <div class="portfolio-details">
                         <h3>Basic Exterior Detail</h3>
                         <p>High-cling surface safe snow foam encapsulation pre-wash layer, running fluid dirt suspension rinsing, followed by careful two-bucket individual scratch-prevention contact washing protocols.</p>
@@ -948,27 +948,25 @@
             alert('Enquiry Protocol Logged. Transaction packet generated successfully and forwarded to administrator dashboard.');
         }
 
-        // SCROLL-BOUND PORTFOLIO LAYER SWITCHER ENGINE
+        // IMPROVED HIGH-ACCURACY SCROLL PARALLAX ACTIVE ROUTER
         window.addEventListener('scroll', () => {
             const currentScrollTop = window.scrollY;
             const absoluteMaxHeight = document.documentElement.scrollHeight - window.innerHeight;
             const scrollRatio = absoluteMaxHeight > 0 ? (currentScrollTop / absoluteMaxHeight) : 0;
             
-            // Calculate which image frame index should activate based on position
+            // Precise break point zones matching card layout patterns smoothly
             let stageIndex = 1;
-            if (scrollRatio > 0.25) stageIndex = 2;
-            if (scrollRatio > 0.55) stageIndex = 3;
-            if (scrollRatio > 0.82) stageIndex = 4;
+            if (scrollRatio > 0.22) stageIndex = 2;
+            if (scrollRatio > 0.52) stageIndex = 3;
+            if (scrollRatio > 0.80) stageIndex = 4;
 
-            // Update Left and Right Sidebars Simultaneously
             for (let side of ['left', 'right']) {
                 for (let i = 1; i <= 4; i++) {
                     const frame = document.getElementById(`${side}-f${i}`);
                     if (frame) {
                         if (i === stageIndex) {
                             frame.classList.add('active');
-                            // Create subtle interactive movement within the crop frame
-                            frame.style.transform = `scale(${1.05 + (scrollRatio * 0.05)}) translateY(${(scrollRatio * -15)}px)`;
+                            frame.style.transform = `scale(${1.08 + (scrollRatio * 0.04)}) translateY(${(scrollRatio * -20)}px)`;
                         } else {
                             frame.classList.remove('active');
                         }
