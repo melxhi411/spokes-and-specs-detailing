@@ -44,40 +44,66 @@
             pointer-events: none;
             display: flex;
             justify-content: space-between;
-            padding: 0 4%;
+            padding: 0 2%;
         }
 
         .cinema-column {
-            width: 28%;
+            width: 30%;
             height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            opacity: 0.25;
+            opacity: 0.22;
             transition: var(--transition-ux);
         }
 
-        /* Abstract Premium 3D Vector Geometry viewport mimicking M3 metallic surface translations */
+        /* High-Performance Interactive Viewport simulating clean multi-angle profiles */
         .m3-viewport-proxy {
             width: 100%;
             height: 550px;
             border-left: 1px solid var(--luxury-gold);
-            border-right: 1px solid rgba(255,255,255,0.1);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
             position: relative;
             transform-style: preserve-3d;
-            perspective: 1000px;
-            transition: transform 0.1s linear;
+            perspective: 1200px;
+            transition: transform 0.1s ease-out;
+            background: linear-gradient(180deg, rgba(20,20,20,0.4) 0%, transparent 100%);
+            border-radius: var(--radius-apple);
+        }
+
+        .m3-car-silhouette {
+            position: absolute;
+            top: 35%;
+            left: 10%;
+            width: 80%;
+            height: 40%;
+            border: 2px dashed rgba(212, 175, 55, 0.3);
+            border-radius: 50% 50% 10px 10px;
+            transform: translateZ(30px);
+            transition: var(--transition-ux);
+        }
+
+        .m3-car-silhouette::after {
+            content: 'M3 PROFILE';
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.65rem;
+            color: var(--luxury-gold);
+            letter-spacing: 0.2em;
+            font-weight: 600;
         }
 
         .m3-surface-line {
             position: absolute;
             width: 100%;
-            height: 2px;
+            height: 1px;
             background: linear-gradient(90deg, var(--luxury-gold), transparent);
-            box-shadow: 0 0 15px var(--luxury-gold);
+            box-shadow: 0 0 12px var(--luxury-gold);
             top: 50%;
-            transform: translateZ(50px);
+            transform: translateZ(60px);
         }
 
         /* --- NAVIGATION HEADER --- */
@@ -391,11 +417,12 @@
         }
 
         .disabled-overlay-text {
-            color: var(--muted-gray);
+            color: #ef4444;
             font-size: 0.85rem;
-            font-style: italic;
+            font-weight: 500;
             margin-top: 0.5rem;
             display: none;
+            text-align: center;
         }
 
         .btn-container {
@@ -565,11 +592,13 @@
     <div id="cinema-container">
         <div class="cinema-column">
             <div class="m3-viewport-proxy" id="left-viewport">
+                <div class="m3-car-silhouette" id="left-silhouette"></div>
                 <div class="m3-surface-line"></div>
             </div>
         </div>
         <div class="cinema-column">
             <div class="m3-viewport-proxy" id="right-viewport">
+                <div class="m3-car-silhouette" id="right-silhouette"></div>
                 <div class="m3-surface-line" style="animation-delay: 0.2s;"></div>
             </div>
         </div>
@@ -601,8 +630,8 @@
             <div class="requirement-callout">
                 <span>Requirement:</span> Outdoor Tap & Electricity Outlet Access Required
             </div>
-            <h1>Precision Care.<br>Studio Standard.</h1>
-            <p>A bespoke detailing unit delivering fine corrective restoration profiles directly onto your private estate driveway footprint.</p>
+            <h1>Precision Care.<br>Detail Standard.</h1>
+            <p>A bespoke mobile auto detailing unit delivering fine corrective restoration profiles directly onto your private driveway footprint.</p>
             <a href="#enquiries" class="action-button">Begin Interactive Booking</a>
         </section>
 
@@ -613,7 +642,7 @@
                 
                 <div class="dropdown-card">
                     <div class="dropdown-trigger" onclick="handleDropdown(this)">
-                        <h3>Interior Studio Options</h3>
+                        <h3>Interior Detail Options</h3>
                         <span class="dropdown-icon">+</span>
                     </div>
                     <div class="dropdown-content">
@@ -630,7 +659,7 @@
 
                 <div class="dropdown-card">
                     <div class="dropdown-trigger" onclick="handleDropdown(this)">
-                        <h3>Exterior Studio Options</h3>
+                        <h3>Exterior Detail Options</h3>
                         <span class="dropdown-icon">+</span>
                     </div>
                     <div class="dropdown-content">
@@ -668,7 +697,7 @@
 
                 <div class="dropdown-card">
                     <div class="dropdown-trigger" onclick="handleDropdown(this)">
-                        <h3>Comprehensive Studio Bundles</h3>
+                        <h3>Comprehensive Detail Bundles</h3>
                         <span class="dropdown-icon">+</span>
                     </div>
                     <div class="dropdown-content">
@@ -692,7 +721,7 @@
 
         <!-- TRANSACTION BOOKING SYSTEM WITH DEPENDENCY CONSTRAINT LOGIC -->
         <section id="enquiries">
-            <h2 class="section-title">Studio <span>Enquiry Registry</span></h2>
+            <h2 class="section-title">Detail <span>Enquiry Registry</span></h2>
             <div class="interactive-form-box">
                 <form id="masterForm" onsubmit="executeFinalBooking(event)">
                     
@@ -720,7 +749,7 @@
                         
                         <!-- Comprehensive Bundles Block -->
                         <div class="options-block" style="border-color: var(--luxury-gold);">
-                            <div class="options-block-title">Comprehensive Bundles (Locks Independent Categories)</div>
+                            <div class="options-block-title">Comprehensive Bundles (Locks Modular Categories)</div>
                             <div class="selection-row">
                                 <input type="radio" name="bundleGroup" id="bundle-none" checked onclick="evaluateConstraints()">
                                 <label for="bundle-none">Custom Configuration (Build Modularly Below)</label>
@@ -784,7 +813,7 @@
                             </div>
                         </div>
                         <div class="disabled-overlay-text" id="lockout-warning">
-                            Notice: A total bundle asset configuration has been chosen. Independent selection constraints are bypassed automatically.
+                            Notice: A total comprehensive bundle configuration has been selected. Individual modular menus are disabled.
                         </div>
 
                         <div class="btn-container">
@@ -796,7 +825,7 @@
                     <!-- STEP 3: TRANSACTION SCHEDULER MATRIX -->
                     <div class="flow-step" id="stepSegment-3">
                         <div class="step-indicator">Step 03 / 03</div>
-                        <div class="step-heading">Select Architecture Appointment Slot</div>
+                        <div class="step-heading">Select Appointment Slot</div>
                         <p style="font-size:0.9rem; color:var(--muted-gray); margin-bottom:1rem;">Select a verified clear calendar deployment sequence window:</p>
                         
                         <div class="calendar-ui">
@@ -819,7 +848,7 @@
 
         <!-- LIVE PORTFOLIO WORK HIGHLIGHTS -->
         <section id="work">
-            <h2 class="section-title">Studio Log <span>& Work Execution</span></h2>
+            <h2 class="section-title">Detail Log <span>& Work Execution</span></h2>
             <div class="portfolio-stack">
                 
                 <div class="portfolio-item">
@@ -886,7 +915,7 @@
 
     <!-- CLIENT INTERACTIVE SCRIPT LOGIC -->
     <script>
-        // Apple-style Dropdown Accordion Architecture
+        // Dropdown Accordion Architecture
         function handleDropdown(element) {
             const bodyContent = element.nextElementSibling;
             const iconMarker = element.querySelector('.dropdown-icon');
@@ -908,7 +937,7 @@
             document.getElementById('stepSegment-' + targetStepNum).classList.add('active');
         }
 
-        // Dependent Choice Control Logic Engine (Bundle Lockout)
+        // Choice Control Logic Engine (Bundle Lockout Fix)
         function evaluateConstraints() {
             const modularContainer = document.getElementById('modular-options-container');
             const lockoutWarningText = document.getElementById('lockout-warning');
@@ -916,16 +945,14 @@
             const modularInputs = modularContainer.querySelectorAll('input[type="checkbox"]');
 
             if (!isCustomProfileActive) {
-                // Lockout individual configurations because a bundle handles it seamlessly
                 modularInputs.forEach(box => {
                     box.checked = false;
                     box.disabled = true;
                 });
-                modularContainer.style.opacity = "0.2";
+                modularContainer.style.opacity = "0.15";
                 modularContainer.style.pointerEvents = "none";
                 lockoutWarningText.style.display = "block";
             } else {
-                // Re-enable individual selections
                 modularInputs.forEach(box => {
                     box.disabled = false;
                 });
@@ -948,22 +975,32 @@
             alert('Enquiry Protocol Logged. Transaction packet generated successfully and forwarded to administrator dashboard.');
         }
 
-        // Apple Scroll-bound Cinematic Perspective Simulation Engine (BMW M3 Frame Map)
+        // Smooth Scroll-Bound Perspective Shift Engine
         window.addEventListener('scroll', () => {
             const currentScrollTop = window.scrollY;
             const absoluteMaxHeight = document.documentElement.scrollHeight - window.innerHeight;
             const scrollRatio = absoluteMaxHeight > 0 ? (currentScrollTop / absoluteMaxHeight) : 0;
             
-            // Translate scroll coordinates into 3D isometric perspectives shifting camera angle parameters dynamically
-            const angularRotationY = scrollRatio * 360; 
-            const translateOffsetZ = Math.sin(scrollRatio * Math.PI) * 120; 
-
             const leftBox = document.getElementById('left-viewport');
             const rightBox = document.getElementById('right-viewport');
+            const leftSilhouette = document.getElementById('left-silhouette');
+            const rightSilhouette = document.getElementById('right-silhouette');
+
+            // Complex rotation calculations mimicking physical camera truck shots around front/rear profiles
+            const leftRotation = (scrollRatio * 180);
+            const rightRotation = -(scrollRatio * 180);
+            const depthTranslation = Math.sin(scrollRatio * Math.PI) * 70;
 
             if (leftBox && rightBox) {
-                leftBox.style.transform = `rotateY(${angularRotationY}deg) translateZ(${translateOffsetZ}px) scale(${1 + (scrollRatio * 0.15)})`;
-                rightBox.style.transform = `rotateY(${-angularRotationY}deg) translateZ(${translateOffsetZ}px) scale(${1 + (scrollRatio * 0.15)})`;
+                leftBox.style.transform = `rotateY(${leftRotation}deg) translateZ(${depthTranslation}px)`;
+                rightBox.style.transform = `rotateY(${rightRotation}deg) translateZ(${depthTranslation}px)`;
+            }
+            
+            // Adjust silhouette rounding to represent changing vehicle angles
+            if (leftSilhouette && rightSilhouette) {
+                const cornerRadius = 50 - (scrollRatio * 40);
+                leftSilhouette.style.borderRadius = `${cornerRadius}% ${50 - cornerRadius}% 10px 10px`;
+                rightSilhouette.style.borderRadius = `${50 - cornerRadius}% ${cornerRadius}% 10px 10px`;
             }
         });
     </script>
