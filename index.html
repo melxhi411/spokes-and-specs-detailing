@@ -453,7 +453,7 @@
 
         .calendar-ui {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             gap: 10px;
             margin-top: 1rem;
         }
@@ -467,6 +467,7 @@
             cursor: pointer;
             font-size: 0.85rem;
             transition: var(--transition-ux);
+            user-select: none;
         }
 
         .calendar-slot:hover {
@@ -572,7 +573,6 @@
 </head>
 <body>
 
-    <!-- INTERACTIVE BACKGROUND SCROLL PARALLAX FRAME SYSTEM -->
     <div id="cinema-container">
         <div class="cinema-column">
             <div class="m3-viewport-proxy">
@@ -594,7 +594,6 @@
         </div>
     </div>
 
-    <!-- NAVIGATION HEADER -->
     <header>
         <div class="nav-wrapper">
             <div class="brand-container">
@@ -614,7 +613,6 @@
 
     <main>
 
-        <!-- HERO PANEL -->
         <section class="hero-panel">
             <div class="requirement-callout">
                 <span>Requirement:</span> Outdoor Tap & Electricity Outlet Access Required
@@ -624,7 +622,6 @@
             <a href="#enquiries" class="action-button">Begin Interactive Booking</a>
         </section>
 
-        <!-- PRICING SECTIONS -->
         <section id="prices">
             <h2 class="section-title">Menu <span>& Tier Pricing</span></h2>
             <div class="menu-wrapper">
@@ -708,7 +705,6 @@
             </div>
         </section>
 
-        <!-- BOOKING REGISTRY FORM -->
         <section id="enquiries">
             <h2 class="section-title">Detail <span>Enquiry Registry</span></h2>
             <div class="interactive-form-box">
@@ -808,12 +804,7 @@
                         <div class="step-heading">Select Appointment Slot</div>
                         <p style="font-size:0.9rem; color:var(--muted-gray); margin-bottom:1rem;">Select a verified clear calendar deployment sequence window:</p>
                         
-                        <div class="calendar-ui">
-                            <div class="calendar-slot" onclick="selectTimeSlot(this)">Mon 13<br><strong>09:00</strong></div>
-                            <div class="calendar-slot" onclick="selectTimeSlot(this)">Mon 13<br><strong>13:00</strong></div>
-                            <div class="calendar-slot" onclick="selectTimeSlot(this)">Tue 14<br><strong>10:00</strong></div>
-                            <div class="calendar-slot" onclick="selectTimeSlot(this)">Wed 15<br><strong>09:00</strong></div>
-                        </div>
+                        <div class="calendar-ui"></div>
                         <input type="hidden" id="internalSelectedTime" required>
 
                         <div class="btn-container">
@@ -826,7 +817,6 @@
             </div>
         </section>
 
-        <!-- LIVE PORTFOLIO GALLERY WORK HIGHLIGHTS -->
         <section id="work">
             <h2 class="section-title">Detail Log <span>& Work Execution</span></h2>
             <div class="portfolio-stack">
@@ -871,7 +861,6 @@
             </div>
         </section>
 
-        <!-- CANCELLATION LEDGER -->
         <section style="border-bottom:none;">
             <h2 class="section-title">Revocation <span>& Adjustments</span></h2>
             <div class="interactive-form-box" style="background-color: #111; border-color: rgba(239, 68, 68, 0.2); text-align: center;">
@@ -894,6 +883,12 @@
     </footer>
 
     <script>
+        // Start up functions
+        document.addEventListener("DOMContentLoaded", () => {
+            generateDynamicCalendar();
+        });
+
+        // Dynamic Accordion System
         function handleDropdown(element) {
             const bodyContent = element.nextElementSibling;
             const iconMarker = element.querySelector('.dropdown-icon');
@@ -908,11 +903,13 @@
             }
         }
 
+        // Multi-Step Form Router
         function renderStep(targetStepNum) {
             document.querySelectorAll('.flow-step').forEach(block => block.classList.remove('active'));
             document.getElementById('stepSegment-' + targetStepNum).classList.add('active');
         }
 
+        // Choice Interdependency Lockouts
         function evaluateConstraints() {
             const modularContainer = document.getElementById('modular-options-container');
             const lockoutWarningText = document.getElementById('lockout-warning');
@@ -937,24 +934,94 @@
             }
         }
 
-        function selectTimeSlot(element) {
-            document.querySelectorAll('.calendar-slot').forEach(slot => slot.classList.remove('selected'));
-            element.classList.add('selected');
-            document.getElementById('internalSelectedTime').value = element.innerText.replace('\n', ' ');
+        // --- LIVE ROLLING CALENDAR SCHEDULER ENGINE ---
+        function generateDynamicCalendar() {
+            const calendarGrid = document.querySelector(".calendar-ui");
+            if (!calendarGrid) return;
+            
+            calendarGrid.innerHTML = ""; 
+            const workingHours = ["09:00", "11:30", "14:00", "16:30"];
+            const daysToAdvance = 7;
+
+            for (let i = 1; i <= daysToAdvance; i++) {
+                const currentDate = new Date();
+                currentDate.setDate(currentDate.getDate() + i);
+                
+                // Skip Sundays automatically
+                if (currentDate.getDay() === 0) continue; 
+
+                const formattedDay = currentDate.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+                
+                workingHours.forEach(time => {
+                    const slotCard = document.createElement("div");
+                    slotCard.className = "calendar-slot";
+                    slotCard.innerHTML = `${formattedDay}<br><strong>${time}</strong>`;
+                    
+                    slotCard.onclick = () => {
+                        document.querySelectorAll('.calendar-slot').forEach(s => s.classList.remove('selected'));
+                        slotCard.classList.add('selected');
+                        document.getElementById('internalSelectedTime').value = `${formattedDay} at ${time}`;
+                    };
+                    
+                    calendarGrid.appendChild(slotCard);
+                });
+            }
         }
 
+        // --- SECURE FREE GOOGLE SHEETS FORM HANDLER ---
         function executeFinalBooking(event) {
             event.preventDefault();
-            alert('Enquiry Protocol Logged. Transaction packet generated successfully and forwarded to administrator dashboard.');
+            
+            const fields = document.getElementById("masterForm").querySelectorAll("input");
+            const chosenSlot = document.getElementById('internalSelectedTime').value;
+            
+            if (!chosenSlot) {
+                alert("Action Required: Please select an appointment time slot on Step 3.");
+                return;
+            }
+
+            let selectedTier = "Custom Modular Package Selection";
+            if (document.getElementById('bundle-1').checked) selectedTier = "Opt 1: Basic Full Detail Portfolio Portfolio";
+            if (document.getElementById('bundle-2').checked) selectedTier = "Opt 2: Deep Full Detail Portfolio Portfolio";
+            if (document.getElementById('bundle-3').checked) selectedTier = "Opt 3: Deep Full Detail Portfolio Portfolio + Ceramic UV Armor";
+
+            const payload = {
+                name: fields[0].value,
+                mobile: fields[1].value,
+                address: fields[2].value,
+                vrm: fields[3].value.toUpperCase(),
+                vehicle: fields[4].value,
+                colour: fields[5].value,
+                package: selectedTier,
+                slot: chosenSlot
+            };
+
+            // ⚠️ CRITICAL STEP: Paste your deployment URL from Google Apps Script inside the quotes below!
+            const webAppUrl = "https://script.google.com/macros/s/AKfycbxGp-T73oEbmbYMYvAWsh2PoAxWbSACWzCYRNAOQhTFRNDcx0KRO6gsRm_4XLRBjOkOAQ/exec";
+
+            fetch(webAppUrl, {
+                method: "POST",
+                mode: "no-cors", 
+                cache: "no-cache",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                alert(`Booking Matrix Logged! Your slot (${chosenSlot}) has been tentatively locked. I will contact you shortly to confirm placement.`);
+                document.getElementById("masterForm").reset();
+                renderStep(1);
+                generateDynamicCalendar();
+            }).catch(err => {
+                console.error("Transmission Error:", err);
+                alert("Network Timeout. Security handshake failed. Please try again.");
+            });
         }
 
-        // IMPROVED HIGH-ACCURACY SCROLL PARALLAX ACTIVE ROUTER
+        // Background Scroll Parallax Router Engine
         window.addEventListener('scroll', () => {
             const currentScrollTop = window.scrollY;
             const absoluteMaxHeight = document.documentElement.scrollHeight - window.innerHeight;
             const scrollRatio = absoluteMaxHeight > 0 ? (currentScrollTop / absoluteMaxHeight) : 0;
             
-            // Precise break point zones matching card layout patterns smoothly
             let stageIndex = 1;
             if (scrollRatio > 0.22) stageIndex = 2;
             if (scrollRatio > 0.52) stageIndex = 3;
