@@ -3,610 +3,969 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spokes & Specs | Premium Mobile Detailing</title>
+    <title>SPOKES & SPECS | Mobile Atelier</title>
     <style>
         :root {
-            --bg-black: #0a0a0a;
-            --bg-dark-grey: #16161a;
-            --bg-card: #222227;
-            --gold: #d4af37;
-            --gold-hover: #f3e5ab;
-            --white: #ffffff;
-            --text-muted: #a0a0ab;
-            --apple-radius: 12px;
-            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --apple-black: #000000;
+            --apple-dark-grey: #1c1c1e;
+            --apple-card-bg: #121214;
+            --luxury-gold: #d4af37;
+            --luxury-gold-glow: rgba(212, 175, 55, 0.15);
+            --pure-white: #ffffff;
+            --muted-gray: #8e8e93;
+            --border-tint: rgba(255, 255, 255, 0.06);
+            --radius-apple: 14px;
+            --transition-ux: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+            letter-spacing: -0.011em;
         }
 
         body {
-            background-color: var(--bg-black);
-            color: var(--white);
+            background-color: var(--apple-black);
+            color: var(--pure-white);
+            overflow-x: hidden;
             scroll-behavior: smooth;
-            padding-top: 80px;
         }
 
-        /* --- NAVIGATION (Apple Style) --- */
+        /* --- IMMERSIVE SCROLL CINEMA ENGINE --- */
+        #cinema-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            pointer-events: none;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 4%;
+        }
+
+        .cinema-column {
+            width: 28%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0.25;
+            transition: var(--transition-ux);
+        }
+
+        /* Abstract Premium 3D Vector Geometry viewport mimicking M3 metallic surface translations */
+        .m3-viewport-proxy {
+            width: 100%;
+            height: 550px;
+            border-left: 1px solid var(--luxury-gold);
+            border-right: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            transition: transform 0.1s linear;
+        }
+
+        .m3-surface-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--luxury-gold), transparent);
+            box-shadow: 0 0 15px var(--luxury-gold);
+            top: 50%;
+            transform: translateZ(50px);
+        }
+
+        /* --- NAVIGATION HEADER --- */
         header {
-            background-color: rgba(10, 10, 10, 0.75);
+            background-color: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid var(--border-tint);
         }
 
-        .nav-container {
-            max-width: 1200px;
+        .nav-wrapper {
+            max-width: 1240px;
             margin: 0 auto;
-            padding: 1rem 2rem;
+            padding: 1.2rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .logo {
-            font-size: 1.4rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            color: var(--white);
-            text-decoration: none;
+        .brand-container {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
         }
 
-        .logo span {
-            color: var(--gold);
+        .brand-main {
+            font-size: 1.35rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: var(--pure-white);
+            text-transform: uppercase;
+        }
+
+        .brand-sub {
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.32em;
+            color: var(--luxury-gold);
+            text-transform: uppercase;
+            margin-top: 0.1rem;
         }
 
         nav ul {
             display: flex;
             list-style: none;
-            gap: 1.5rem;
+            gap: 1.2rem;
         }
 
         nav a {
-            color: var(--text-muted);
+            color: var(--muted-gray);
             text-decoration: none;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: var(--apple-radius);
-            transition: var(--transition-smooth);
-            display: inline-block;
+            padding: 0.5rem 1.1rem;
+            border-radius: var(--radius-apple);
+            transition: var(--transition-ux);
         }
 
-        /* Enlarge and highlight animation on hover */
         nav a:hover {
-            color: var(--white);
-            background-color: rgba(255, 255, 255, 0.08);
-            transform: scale(1.05);
+            color: var(--pure-white);
+            background-color: rgba(255, 255, 255, 0.06);
+            transform: scale(1.06);
         }
 
-        /* --- HERO SECTION --- */
-        .hero {
-            max-width: 1200px;
+        /* --- CORE STRUCTURAL FOREGROUND --- */
+        main {
+            position: relative;
+            z-index: 10;
+            max-width: 720px;
             margin: 0 auto;
-            padding: 6rem 2rem;
-            text-align: center;
+            padding: 0 1.5rem;
         }
 
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            letter-spacing: -1px;
-            margin-bottom: 1.5rem;
-            line-height: 1.1;
-        }
-
-        .hero h1 span {
-            color: var(--gold);
-        }
-
-        .hero p {
-            color: var(--text-muted);
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin: 0 auto 2.5rem;
-        }
-
-        .req-badge {
-            background-color: rgba(212, 175, 55, 0.1);
-            border: 1px solid var(--gold);
-            color: var(--gold);
-            padding: 0.5rem 1.2rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            display: inline-block;
-            margin-bottom: 2rem;
-            font-weight: 600;
-        }
-
-        .btn-gold {
-            background-color: var(--gold);
-            color: var(--bg-black);
-            padding: 0.8rem 2rem;
-            border-radius: var(--apple-radius);
-            text-decoration: none;
-            font-weight: 600;
-            transition: var(--transition-smooth);
-            display: inline-block;
-        }
-
-        .btn-gold:hover {
-            background-color: var(--gold-hover);
-            transform: translateY(-2px);
-        }
-
-        /* --- SECTION BASE STYLE --- */
         section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 5rem 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 7rem 0;
+            border-bottom: 1px solid var(--border-tint);
         }
 
-        section h2 {
-            font-size: 2.2rem;
+        .section-title {
+            font-size: 2.4rem;
             font-weight: 700;
+            letter-spacing: -0.022em;
             margin-bottom: 3rem;
             text-align: center;
         }
 
-        section h2 span {
-            color: var(--gold);
+        .section-title span {
+            color: var(--luxury-gold);
         }
 
-        /* --- PRICES DROPDOWN (Accordions) --- */
-        .price-menu {
-            max-width: 800px;
-            margin: 0 auto;
+        /* --- HOMEPAGE SECTION --- */
+        .hero-panel {
+            text-align: center;
+            padding: 10rem 0 6rem 0;
         }
 
-        .accordion {
-            background-color: var(--bg-dark-grey);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: var(--apple-radius);
-            margin-bottom: 1rem;
+        .requirement-callout {
+            background-color: rgba(28, 28, 30, 0.6);
+            border: 1px solid var(--border-tint);
+            padding: 0.6rem 1.4rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--muted-gray);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .requirement-callout span {
+            color: var(--luxury-gold);
+            font-weight: 600;
+        }
+
+        .hero-panel h1 {
+            font-size: 3.6rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            line-height: 1.05;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-panel p {
+            font-size: 1.2rem;
+            color: var(--muted-gray);
+            margin-bottom: 3rem;
+            line-height: 1.5;
+        }
+
+        .action-button {
+            background-color: var(--pure-white);
+            color: var(--apple-black);
+            padding: 0.9rem 2.4rem;
+            border-radius: var(--radius-apple);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition-ux);
+            display: inline-block;
+            border: 1px solid transparent;
+        }
+
+        .action-button:hover {
+            background-color: var(--apple-black);
+            color: var(--pure-white);
+            border-color: var(--luxury-gold);
+            box-shadow: 0 0 20px var(--luxury-gold-glow);
+        }
+
+        /* --- ACCORDION SYSTEM (PRICES) --- */
+        .menu-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .dropdown-card {
+            background-color: var(--apple-dark-grey);
+            border: 1px solid var(--border-tint);
+            border-radius: var(--radius-apple);
             overflow: hidden;
+            transition: var(--transition-ux);
         }
 
-        .accordion-header {
-            padding: 1.2rem 1.5rem;
+        .dropdown-card:hover {
+            border-color: rgba(212, 175, 55, 0.4);
+        }
+
+        .dropdown-trigger {
+            padding: 1.4rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
             user-select: none;
-            transition: var(--transition-smooth);
         }
 
-        .accordion-header:hover {
-            background-color: rgba(255, 255, 255, 0.02);
-        }
-
-        .accordion-header h3 {
+        .dropdown-trigger h3 {
             font-size: 1.2rem;
             font-weight: 600;
         }
 
-        .accordion-icon {
-            color: var(--gold);
-            font-weight: bold;
-            transition: var(--transition-smooth);
+        .dropdown-icon {
+            color: var(--luxury-gold);
+            font-size: 1.3rem;
+            transition: var(--transition-ux);
         }
 
-        .accordion-content {
+        .dropdown-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease-out;
-            background-color: rgba(0, 0, 0, 0.2);
+            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            background-color: rgba(0,0,0,0.15);
         }
 
-        .price-item {
+        .menu-row {
             display: flex;
             justify-content: space-between;
-            padding: 1rem 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            align-items: center;
+            padding: 1.2rem 2rem;
+            border-top: 1px solid var(--border-tint);
         }
 
-        .price-item span:last-child {
-            color: var(--gold);
+        .menu-row .item-name {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .menu-row .item-cost {
+            color: var(--luxury-gold);
             font-weight: 600;
+            font-size: 1.05rem;
         }
 
-        /* --- ENQUIRIES & STEP SYSTEM --- */
-        .form-container {
-            background-color: var(--bg-dark-grey);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: var(--apple-radius);
-            max-width: 700px;
-            margin: 0 auto;
+        /* --- TRANSACTION ENQUIRY FLOW --- */
+        .interactive-form-box {
+            background-color: var(--apple-dark-grey);
+            border: 1px solid var(--border-tint);
+            border-radius: var(--radius-apple);
             padding: 2.5rem;
         }
 
-        .form-step {
+        .flow-step { display: none; }
+        .flow-step.active { display: block; }
+
+        .step-indicator {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--luxury-gold);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .step-heading {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1.8rem;
+        }
+
+        .field-group {
+            margin-bottom: 1.4rem;
+        }
+
+        .field-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--muted-gray);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .field-group input, .field-group select {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            background-color: var(--apple-black);
+            border: 1px solid var(--border-tint);
+            border-radius: var(--radius-apple);
+            color: var(--pure-white);
+            font-size: 1rem;
+            outline: none;
+            transition: var(--transition-ux);
+        }
+
+        .field-group input:focus, .field-group select:focus {
+            border-color: var(--luxury-gold);
+        }
+
+        /* Dynamic Options Grid layout */
+        .options-block {
+            border: 1px solid var(--border-tint);
+            border-radius: var(--radius-apple);
+            padding: 1.2rem;
+            margin-bottom: 1.2rem;
+            background: rgba(0,0,0,0.1);
+        }
+
+        .options-block-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--luxury-gold);
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .selection-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.6rem 0;
+            cursor: pointer;
+        }
+
+        .selection-row input[type="checkbox"], .selection-row input[type="radio"] {
+            accent-color: var(--luxury-gold);
+            width: 18px;
+            height: 18px;
+        }
+
+        .selection-row label {
+            font-size: 0.95rem;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .disabled-overlay-text {
+            color: var(--muted-gray);
+            font-size: 0.85rem;
+            font-style: italic;
+            margin-top: 0.5rem;
             display: none;
         }
 
-        .form-step.active {
-            display: block;
-        }
-
-        .input-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .input-group input, .input-group select {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            background-color: var(--bg-black);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--apple-radius);
-            color: var(--white);
-            outline: none;
-            font-size: 1rem;
-            transition: var(--transition-smooth);
-        }
-
-        .input-group input:focus, .input-group select:focus {
-            border-color: var(--gold);
-        }
-
-        .step-title {
-            font-size: 1.4rem;
-            margin-bottom: 1.5rem;
-            color: var(--gold);
-        }
-
-        /* --- OUR WORK & AREAS --- */
-        .work-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
-        }
-
-        .work-card {
-            background-color: var(--bg-dark-grey);
-            border-radius: var(--apple-radius);
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .work-img-placeholder {
-            height: 200px;
-            background-color: #2a2a30;
+        .btn-container {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            font-size: 0.9rem;
+            gap: 1rem;
+            margin-top: 2rem;
         }
 
-        .work-info {
-            padding: 1.5rem;
-        }
-
-        .work-info h3 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .work-info p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .areas-box {
+        .btn-nav-step {
+            flex: 1;
+            padding: 0.85rem;
+            border-radius: var(--radius-apple);
+            font-weight: 600;
+            cursor: pointer;
             text-align: center;
-            background: linear-gradient(135deg, var(--bg-dark-grey), var(--bg-black));
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            padding: 3rem;
-            border-radius: var(--apple-radius);
+            border: none;
+            font-size: 0.95rem;
+            transition: var(--transition-ux);
         }
 
-        /* --- CONTACT & CANCELLATION --- */
-        .contact-details {
-            text-align: center;
-            font-size: 1.2rem;
-            margin-bottom: 3rem;
+        .btn-nav-step.primary {
+            background-color: var(--pure-white);
+            color: var(--apple-black);
         }
 
-        .contact-details a {
-            color: var(--gold);
-            text-decoration: none;
-            margin: 0 1rem;
+        .btn-nav-step.primary:hover {
+            background-color: var(--luxury-gold);
+            color: var(--apple-black);
         }
 
-        .cancel-box {
-            max-width: 500px;
-            margin: 0 auto;
-            background-color: var(--bg-dark-grey);
-            padding: 2rem;
-            border-radius: var(--apple-radius);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            text-align: center;
+        .btn-nav-step.secondary {
+            background-color: transparent;
+            color: var(--muted-gray);
+            border: 1px solid var(--border-tint);
         }
 
-        footer {
-            text-align: center;
-            padding: 3rem;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        .btn-nav-step.secondary:hover {
+            color: var(--pure-white);
+            border-color: var(--muted-gray);
         }
 
-        /* Mock Calendar styling */
-        .mock-cal {
+        /* Calendar grid setup */
+        .calendar-ui {
             display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
             margin-top: 1rem;
-            text-align: center;
         }
 
-        .cal-day {
-            padding: 10px;
-            background: var(--bg-black);
-            border-radius: 6px;
+        .calendar-slot {
+            background-color: var(--apple-black);
+            border: 1px solid var(--border-tint);
+            padding: 12px;
+            border-radius: var(--radius-apple);
+            text-align: center;
             cursor: pointer;
             font-size: 0.85rem;
+            transition: var(--transition-ux);
         }
 
-        .cal-day:hover {
-            background: var(--gold);
-            color: black;
+        .calendar-slot:hover {
+            border-color: var(--luxury-gold);
+            transform: scale(1.03);
         }
 
-        @media (max-width: 768px) {
-            nav ul { display: none; } /* Simplified mobile handling */
-            .hero h1 { font-size: 2.4rem; }
+        .calendar-slot.selected {
+            background-color: var(--luxury-gold);
+            color: var(--apple-black);
+            font-weight: 600;
+            border-color: var(--luxury-gold);
+        }
+
+        /* --- WORK PORTFOLIO GALLERY --- */
+        .portfolio-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .portfolio-item {
+            background-color: var(--apple-card-bg);
+            border: 1px solid var(--border-tint);
+            border-radius: var(--radius-apple);
+            overflow: hidden;
+            transition: var(--transition-ux);
+        }
+
+        .portfolio-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+            border-color: rgba(255,255,255,0.15);
+        }
+
+        .portfolio-media {
+            width: 100%;
+            height: 420px;
+            background-color: #1a1a1c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portfolio-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .portfolio-details {
+            padding: 1.8rem 2rem;
+        }
+
+        .portfolio-details h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+        }
+
+        .portfolio-details p {
+            color: var(--muted-gray);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* --- REGION COVERAGE ZONE --- */
+        .coverage-badge-box {
+            margin-top: 2rem;
+            background-color: var(--apple-dark-grey);
+            border: 1px solid var(--border-tint);
+            border-radius: var(--radius-apple);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .coverage-badge-box h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .coverage-badge-box p {
+            color: var(--luxury-gold);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* --- FOOTER & COMPLIANCE --- */
+        footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--muted-gray);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-tint);
+        }
+
+        @media (max-width: 1024px) {
+            #cinema-container { display: none; }
+            main { max-width: 100%; padding: 0 2rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- NAV BAR -->
+    <!-- ABSTRACT 3D SCROLL PERSPECTIVE SYSTEM (CINEMA BACKDROP) -->
+    <div id="cinema-container">
+        <div class="cinema-column">
+            <div class="m3-viewport-proxy" id="left-viewport">
+                <div class="m3-surface-line"></div>
+            </div>
+        </div>
+        <div class="cinema-column">
+            <div class="m3-viewport-proxy" id="right-viewport">
+                <div class="m3-surface-line" style="animation-delay: 0.2s;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HEADER / NAVIGATION -->
     <header>
-        <div class="nav-container">
-            <a href="#" class="logo">Spokes<span>&</span>Specs</a>
+        <div class="nav-wrapper">
+            <div class="brand-container">
+                <div class="brand-main">Spokes & Specs</div>
+                <div class="brand-sub">Mobile Atelier</div>
+            </div>
             <nav>
                 <ul>
                     <li><a href="#">Home</a></li>
                     <li><a href="#prices">Prices</a></li>
-                    <li><a href="#enquiries">Book Now</a></li>
+                    <li><a href="#enquiries">Book</a></li>
                     <li><a href="#work">Our Work</a></li>
-                    <li><a href="#cancel">Cancellation</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- HERO -->
-    <section class="hero">
-        <div class="req-badge">⚠️ Requirement: Outdoor Tap & Electricity Outlet Required</div>
-        <h1>Precision Detailing.<br><span>Showroom Finish.</span></h1>
-        <p>Premium mobile automotive detailing across East London and Essex.</p>
-        <a href="#enquiries" class="btn-gold">Start Booking Enquiry</a>
-    </section>
+    <!-- CORE FRAMEWORK CONTENT CONTAINER -->
+    <main>
 
-    <!-- PRICES SECTION -->
-    <section id="prices">
-        <h2>Menu <span>& Pricing</span></h2>
-        <div class="price-menu">
-            
-            <div class="accordion">
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                    <h3>Interior Detail</h3>
-                    <span class="accordion-icon">+</span>
-                </div>
-                <div class="accordion-content">
-                    <div class="price-item"><span>Opt 1: Basic Interior Detail</span><span>From £20</span></div>
-                    <div class="price-item"><span>Opt 2: Deep Clean Interior Detail (Restores upholstery, leather & Alcantara)</span><span>From £30</span></div>
-                </div>
+        <!-- HOMEPAGE / HERO -->
+        <section class="hero-panel">
+            <div class="requirement-callout">
+                <span>Requirement:</span> Outdoor Tap & Electricity Outlet Access Required
             </div>
+            <h1>Precision Care.<br>Studio Standard.</h1>
+            <p>A bespoke detailing unit delivering fine corrective restoration profiles directly onto your private estate driveway footprint.</p>
+            <a href="#enquiries" class="action-button">Begin Interactive Booking</a>
+        </section>
 
-            <div class="accordion">
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                    <h3>Exterior Detail</h3>
-                    <span class="accordion-icon">+</span>
-                </div>
-                <div class="accordion-content">
-                    <div class="price-item"><span>Opt 1: Basic Contact Detail (Inc. Pre-wash)</span><span>From £25</span></div>
-                    <div class="price-item"><span>Opt 2: Deep Contact Detail (Inc. Separate Step Wheel Clean)</span><span>From £35</span></div>
-                </div>
-            </div>
-
-            <div class="accordion">
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                    <h3>Exterior Protection</h3>
-                    <span class="accordion-icon">+</span>
-                </div>
-                <div class="accordion-content">
-                    <div class="price-item"><span>Opt 1: Basic Wax Protection</span><span>+£10</span></div>
-                    <div class="price-item"><span>Opt 2: Ceramic Protection</span><span>+£15</span></div>
-                    <div class="price-item"><span>Opt 3: Ceramic Protection + Sun & UV Protection</span><span>+£20</span></div>
-                </div>
-            </div>
-
-            <div class="accordion">
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                    <h3>Exclusive Bundles</h3>
-                    <span class="accordion-icon">+</span>
-                </div>
-                <div class="accordion-content">
-                    <div class="price-item"><span>Opt 1: Basic Full Detail</span><span>£40</span></div>
-                    <div class="price-item"><span>Opt 2: Deep Full Detail</span><span>From £55</span></div>
-                    <div class="price-item"><span>Opt 3: Deep Full Detail + Ceramic & UV Protection</span><span>From £60</span></div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- ENQUIRIES / BOOKING STEP SYSTEM -->
-    <section id="enquiries">
-        <h2>Booking <span>Enquiry</span></h2>
-        <div class="form-container">
-            <form id="bookingForm" onsubmit="handleFormSubmit(event)">
+        <!-- DYNAMIC DROPDOWN MENU (PRICES) -->
+        <section id="prices">
+            <h2 class="section-title">Menu <span>& Tier Pricing</span></h2>
+            <div class="menu-wrapper">
                 
-                <!-- Step 1: Vehicle & Contact Info -->
-                <div class="form-step active" id="step1">
-                    <div class="step-title">Step 1: Vehicle & Contact Info</div>
-                    <div class="input-group"><label>Full Name</label><input type="text" required></div>
-                    <div class="input-group"><label>Phone Number</label><input type="tel" required></div>
-                    <div class="input-group"><label>Home Address</label><input type="text" required></div>
-                    <div class="input-group"><label>Vehicle Registration (Reg)</label><input type="text" required style="text-transform: uppercase;"></div>
-                    <div class="input-group"><label>Vehicle Make/Model</label><input type="text" required></div>
-                    <div class="input-group"><label>Vehicle Colour</label><input type="text" required></div>
-                    <button type="button" class="btn-gold" onclick="nextStep(2)">Next: Choose Package</button>
-                </div>
-
-                <!-- Step 2: Choose Tier Options -->
-                <div class="form-step" id="step2">
-                    <div class="step-title">Step 2: Select Your Service</div>
-                    <div class="input-group">
-                        <label>Select Package Option</label>
-                        <select required>
-                            <option value="">-- Select custom option or bundle --</option>
-                            <option>Interior Opt 1: Basic Interior Detail - £20</option>
-                            <option>Interior Opt 2: Deep Clean Interior - £30</option>
-                            <option>Exterior Opt 1: Basic Contact Detail - £25</option>
-                            <option>Exterior Opt 2: Deep Contact Detail - £35</option>
-                            <option>Bundle Opt 1: Basic Full Detail - £40</option>
-                            <option>Bundle Opt 2: Deep Full Detail - £55</option>
-                            <option>Bundle Opt 3: Deep Full Detail + Ceramic & UV - £60</option>
-                        </select>
+                <div class="dropdown-card">
+                    <div class="dropdown-trigger" onclick="handleDropdown(this)">
+                        <h3>Interior Studio Options</h3>
+                        <span class="dropdown-icon">+</span>
                     </div>
-                    <div class="input-group">
-                        <label>Add Optional Add-on Protection</label>
-                        <select>
-                            <option value="none">None</option>
-                            <option>Basic Wax Protection (+£10)</option>
-                            <option>Ceramic Protection (+£15)</option>
-                            <option>Ceramic + Sun & UV Protection (+£20)</option>
-                        </select>
-                    </div>
-                    <button type="button" class="btn-gold" style="background:#444; color:white; margin-right:10px;" onclick="nextStep(1)">Back</button>
-                    <button type="button" class="btn-gold" onclick="nextStep(3)">Next: Choose Date</button>
-                </div>
-
-                <!-- Step 3: Date & Calendar Booking -->
-                <div class="form-step" id="step3">
-                    <div class="step-title">Step 3: Select Available Slot</div>
-                    <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:1rem;">Select an upcoming available delivery slot below:</p>
-                    <div class="mock-cal">
-                        <div class="cal-day" onclick="selectDate(this)">Mon 13<br>09:00</div>
-                        <div class="cal-day" onclick="selectDate(this)">Mon 13<br>13:00</div>
-                        <div class="cal-day" onclick="selectDate(this)">Tue 14<br>10:00</div>
-                        <div class="cal-day" onclick="selectDate(this)">Wed 15<br>09:00</div>
-                        <div class="cal-day" onclick="selectDate(this)">Thu 16<br>14:00</div>
-                    </div>
-                    <input type="hidden" id="selectedDateVal" required>
-                    <div style="margin-top:2rem;">
-                        <button type="button" class="btn-gold" style="background:#444; color:white; margin-right:10px;" onclick="nextStep(2)">Back</button>
-                        <button type="submit" class="btn-gold">Submit & Confirm Booking</button>
+                    <div class="dropdown-content">
+                        <div class="menu-row">
+                            <span class="item-name">Opt 1: Basic Interior Detail</span>
+                            <span class="item-cost">From £20</span>
+                        </div>
+                        <div class="menu-row">
+                            <span class="item-name">Opt 2: Deep Clean Interior Detail <span style="font-size:0.8rem; color:var(--muted-gray); display:block;">(Full restoration profile: Upholstery, Leather, and Alcantara)</span></span>
+                            <span class="item-cost">From £30</span>
+                        </div>
                     </div>
                 </div>
-            </form>
-        </div>
-    </section>
 
-    <!-- OUR WORK -->
-    <section id="work">
-        <h2>Our <span>Work</span></h2>
-        <div class="work-grid">
-            <div class="work-card">
-                <div class="work-img-placeholder">📸 [Insert Before/After Image]</div>
-                <div class="work-info"><h3>Basic Interior Detail</h3><p>Vacuum extraction, careful panel wipe down, clean glass clear clarity.</p></div>
+                <div class="dropdown-card">
+                    <div class="dropdown-trigger" onclick="handleDropdown(this)">
+                        <h3>Exterior Studio Options</h3>
+                        <span class="dropdown-icon">+</span>
+                    </div>
+                    <div class="dropdown-content">
+                        <div class="menu-row">
+                            <span class="item-name">Opt 1: Basic Contact Detail <span style="font-size:0.8rem; color:var(--muted-gray); display:block;">(Includes extensive exterior decontamination pre-wash phase)</span></span>
+                            <span class="item-cost">From £25</span>
+                        </div>
+                        <div class="menu-row">
+                            <span class="item-name">Opt 2: Deep Contact Detail <span style="font-size:0.8rem; color:var(--muted-gray); display:block;">(Includes precision separated step wheel arch configuration cleaning)</span></span>
+                            <span class="item-cost">From £35</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dropdown-card">
+                    <div class="dropdown-trigger" onclick="handleDropdown(this)">
+                        <h3>Exterior Surface Protection</h3>
+                        <span class="dropdown-icon">+</span>
+                    </div>
+                    <div class="dropdown-content">
+                        <div class="menu-row">
+                            <span class="item-name">Opt 1: Basic Carnauba Wax Protection Sealant</span>
+                            <span class="item-cost">+£10</span>
+                        </div>
+                        <div class="menu-row">
+                            <span class="item-name">Opt 2: Advanced Ceramic Quartz Layering</span>
+                            <span class="item-cost">+£15</span>
+                        </div>
+                        <div class="menu-row">
+                            <span class="item-name">Opt 3: Advanced Ceramic Quartz + High-Reflective Sun & UV Matrix</span>
+                            <span class="item-cost">+£20</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dropdown-card">
+                    <div class="dropdown-trigger" onclick="handleDropdown(this)">
+                        <h3>Comprehensive Studio Bundles</h3>
+                        <span class="dropdown-icon">+</span>
+                    </div>
+                    <div class="dropdown-content">
+                        <div class="menu-row">
+                            <span class="item-name">Opt 1: Basic Full Detail Portfolio</span>
+                            <span class="item-cost">£40</span>
+                        </div>
+                        <div class="menu-row">
+                            <span class="item-name">Opt 2: Deep Full Detail Portfolio</span>
+                            <span class="item-cost">From £55</span>
+                        </div>
+                        <div class="menu-row">
+                            <span class="item-name">Opt 3: Deep Full Detail Portfolio + Complete Ceramic & UV Armor</span>
+                            <span class="item-cost">From £60</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-            <div class="work-card">
-                <div class="work-img-placeholder">📸 [Insert Before/After Image]</div>
-                <div class="work-info"><h3>Deep Interior Detail</h3><p>Full steam sterilization, wet upholstery shampoo extraction, Alcantara conditioning.</p></div>
+        </section>
+
+        <!-- TRANSACTION BOOKING SYSTEM WITH DEPENDENCY CONSTRAINT LOGIC -->
+        <section id="enquiries">
+            <h2 class="section-title">Studio <span>Enquiry Registry</span></h2>
+            <div class="interactive-form-box">
+                <form id="masterForm" onsubmit="executeFinalBooking(event)">
+                    
+                    <!-- STEP 1: CONTACT PROFILE AND METRICS -->
+                    <div class="flow-step active" id="stepSegment-1">
+                        <div class="step-indicator">Step 01 / 03</div>
+                        <div class="step-heading">Client & Vehicle Identity Matrix</div>
+                        
+                        <div class="field-group"><label>Client Full Name</label><input type="text" required></div>
+                        <div class="field-group"><label>Mobile Contact Line</label><input type="tel" required></div>
+                        <div class="field-group"><label>Home Base Location Address</label><input type="text" required></div>
+                        <div class="field-group"><label>Vehicle Registration Code (VRM/Reg)</label><input type="text" required style="text-transform: uppercase;"></div>
+                        <div class="field-group"><label>Vehicle Make & Model Specification</label><input type="text" required></div>
+                        <div class="field-group"><label>Observed Paintwork Factory Colour</label><input type="text" required></div>
+                        
+                        <div class="btn-container">
+                            <button type="button" class="btn-nav-step primary" onclick="renderStep(2)">Proceed to Configuration</button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2: DEPENDENCY-LOCKED PACKAGE MATRIX -->
+                    <div class="flow-step" id="stepSegment-2">
+                        <div class="step-indicator">Step 02 / 03</div>
+                        <div class="step-heading">Select Treatment Tiers</div>
+                        
+                        <!-- Comprehensive Bundles Block -->
+                        <div class="options-block" style="border-color: var(--luxury-gold);">
+                            <div class="options-block-title">Comprehensive Bundles (Locks Independent Categories)</div>
+                            <div class="selection-row">
+                                <input type="radio" name="bundleGroup" id="bundle-none" checked onclick="evaluateConstraints()">
+                                <label for="bundle-none">Custom Configuration (Build Modularly Below)</label>
+                            </div>
+                            <div class="selection-row">
+                                <input type="radio" name="bundleGroup" id="bundle-1" onclick="evaluateConstraints()">
+                                <label for="bundle-1"><span>Opt 1: Basic Full Detail</span><span>£40</span></label>
+                            </div>
+                            <div class="selection-row">
+                                <input type="radio" name="bundleGroup" id="bundle-2" onclick="evaluateConstraints()">
+                                <label for="bundle-2"><span>Opt 2: Deep Full Detail</span><span>From £55</span></label>
+                            </div>
+                            <div class="selection-row">
+                                <input type="radio" name="bundleGroup" id="bundle-3" onclick="evaluateConstraints()">
+                                <label for="bundle-3"><span>Opt 3: Deep Full Detail + Ceramic & UV Protection</span><span>From £60</span></label>
+                            </div>
+                        </div>
+
+                        <div id="modular-options-container">
+                            <!-- Interior Options Block -->
+                            <div class="options-block">
+                                <div class="options-block-title">Modular Interior Treatments</div>
+                                <div class="selection-row">
+                                    <input type="checkbox" id="int-1">
+                                    <label for="int-1"><span>Opt 1: Basic Interior Detail</span><span>From £20</span></label>
+                                </div>
+                                <div class="selection-row">
+                                    <input type="checkbox" id="int-2">
+                                    <label for="int-2"><span>Opt 2: Deep Clean Interior Detail</span><span>From £30</span></label>
+                                </div>
+                            </div>
+
+                            <!-- Exterior Options Block -->
+                            <div class="options-block">
+                                <div class="options-block-title">Modular Exterior Treatments</div>
+                                <div class="selection-row">
+                                    <input type="checkbox" id="ext-1">
+                                    <label for="ext-1"><span>Opt 1: Basic Contact Detail (With Pre-wash)</span><span>From £25</span></label>
+                                </div>
+                                <div class="selection-row">
+                                    <input type="checkbox" id="ext-2">
+                                    <label for="ext-2"><span>Opt 2: Deep Contact Detail (With Multi-Step Wheel Clean)</span><span>From £35</span></label>
+                                </div>
+                            </div>
+
+                            <!-- Protection Options Block -->
+                            <div class="options-block">
+                                <div class="options-block-title">Modular Paintwork Protection Add-ons</div>
+                                <div class="selection-row">
+                                    <input type="checkbox" id="prot-1">
+                                    <label for="prot-1"><span>Opt 1: Basic Wax Coating Add-on</span><span>+£10</span></label>
+                                </div>
+                                <div class="selection-row">
+                                    <input type="checkbox" id="prot-2">
+                                    <label for="prot-2"><span>Opt 2: Ceramic Shield Coating Add-on</span><span>+£15</span></label>
+                                </div>
+                                <div class="selection-row">
+                                    <input type="checkbox" id="prot-3">
+                                    <label for="prot-3"><span>Opt 3: Ceramic Shield + Sun & UV Matrix Armoring</span><span>+£20</span></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="disabled-overlay-text" id="lockout-warning">
+                            Notice: A total bundle asset configuration has been chosen. Independent selection constraints are bypassed automatically.
+                        </div>
+
+                        <div class="btn-container">
+                            <button type="button" class="btn-nav-step secondary" onclick="renderStep(1)">Back</button>
+                            <button type="button" class="btn-nav-step primary" onclick="renderStep(3)">Proceed to Ledger Schedule</button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: TRANSACTION SCHEDULER MATRIX -->
+                    <div class="flow-step" id="stepSegment-3">
+                        <div class="step-indicator">Step 03 / 03</div>
+                        <div class="step-heading">Select Architecture Appointment Slot</div>
+                        <p style="font-size:0.9rem; color:var(--muted-gray); margin-bottom:1rem;">Select a verified clear calendar deployment sequence window:</p>
+                        
+                        <div class="calendar-ui">
+                            <div class="calendar-slot" onclick="selectTimeSlot(this)">Mon 13<br><strong>09:00</strong></div>
+                            <div class="calendar-slot" onclick="selectTimeSlot(this)">Mon 13<br><strong>13:00</strong></div>
+                            <div class="calendar-slot" onclick="selectTimeSlot(this)">Tue 14<br><strong>10:00</strong></div>
+                            <div class="calendar-slot" onclick="selectTimeSlot(this)">Wed 15<br><strong>09:00</strong></div>
+                        </div>
+                        <input type="hidden" id="internalSelectedTime" required>
+
+                        <div class="btn-container">
+                            <button type="button" class="btn-nav-step secondary" onclick="renderStep(2)">Back</button>
+                            <button type="submit" class="btn-nav-step primary">Submit Secure Booking Matrix</button>
+                        </div>
+                    </div>
+
+                </form>
             </div>
-            <div class="work-card">
-                <div class="work-img-placeholder">📸 [Insert Before/After Image]</div>
-                <div class="work-info"><h3>Basic Exterior Detail</h3><p>Pre-wash snow foam layer followed by precise hand-contact two-bucket clean.</p></div>
+        </section>
+
+        <!-- LIVE PORTFOLIO WORK HIGHLIGHTS -->
+        <section id="work">
+            <h2 class="section-title">Studio Log <span>& Work Execution</span></h2>
+            <div class="portfolio-stack">
+                
+                <div class="portfolio-item">
+                    <div class="portfolio-media"><img src="IMG_7680.jpeg" alt="Basic Interior Detail"></div>
+                    <div class="portfolio-details">
+                        <h3>Basic Interior Detail</h3>
+                        <p>Complete multi-surface high-power vacuum extraction, careful dash fascia instrumentation alignment dressing, and interior visual clarity optimization clearing glass structures cleanly.</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <div class="portfolio-media"><img src="IMG_7686.jpg" alt="Deep Interior Detail"></div>
+                    <div class="portfolio-details">
+                        <h3>Deep Interior Detail</h3>
+                        <p>Hyperbaric chemical steam sanitization processing, complete deep carpet fiber wet-vacuum upholstery fluid extraction, leather reconditioning, and delicate microfiber nap setting for steering configurations.</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <div class="portfolio-media"><img src="IMG_7682.jpg" alt="Basic Exterior Detail"></div>
+                    <div class="portfolio-details">
+                        <h3>Basic Exterior Detail</h3>
+                        <p>High-cling surface safe snow foam encapsulation pre-wash layer, running fluid dirt suspension rinsing, followed by careful two-bucket individual scratch-prevention contact washing protocols.</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <div class="portfolio-media"><img src="IMG_7681.jpg" alt="Deep Exterior Detail"></div>
+                    <div class="portfolio-details">
+                        <h3>Deep Exterior Detail</h3>
+                        <p>Multi-stage clear lacquer chemical paintwork iron decontamination wash, manual deep wheel barrel breakdown cycles, and fine split geometric arch structure detailing.</p>
+                    </div>
+                </div>
+
             </div>
-            <div class="work-card">
-                <div class="work-img-placeholder">📸 [Insert Before/After Image]</div>
-                <div class="work-info"><h3>Deep Exterior Detail</h3><p>Includes separate heavy iron and wheel rim decontamination cycles.</p></div>
+
+            <!-- REGIONAL DOMAIN COVERAGE -->
+            <div class="coverage-badge-box">
+                <h4>Verified Regional Deployment Boundaries</h4>
+                <p>East London & Essex (Grays / Surrounding Proximities)</p>
             </div>
-        </div>
+        </section>
 
-        <div class="areas-box">
-            <h3>Areas We Cover</h3>
-            <p style="color: var(--gold); margin-top: 1rem; font-size: 1.2rem; font-weight: 600;">East London & Essex (Grays / surrounding areas)</p>
-        </div>
-    </section>
+        <!-- COMPLIANT MANAGED CANCELLATION FLOW -->
+        <section style="border-bottom:none;">
+            <h2 class="section-title">Revocation <span>& Adjustments</span></h2>
+            <div class="interactive-form-box" style="background-color: #111; border-color: rgba(239, 68, 68, 0.2); text-align: center;">
+                <h3 style="margin-bottom: 0.8rem; font-size: 1.15rem;">Request Booking Cancellation</h3>
+                <p style="color: var(--muted-gray); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.4;">To withdraw your appointment frame, execute a direct ledger query sequence using your VRM configuration below:</p>
+                <div class="field-group">
+                    <input type="text" placeholder="ENTER REGISTRATION CODE" style="text-transform: uppercase; text-align: center; max-width: 320px; margin: 0 auto; letter-spacing: 0.1em; border-color: rgba(255,255,255,0.15);">
+                </div>
+                <button class="btn-nav-step" style="background-color: #ef4444; color: white; max-width: 240px; display: inline-block;" onclick="alert('Query transmitted. Secure internal registry confirmation sequence pending manual administrative clearance.')">Search & Revoke Slot</button>
+            </div>
+        </section>
 
-    <!-- CANCELLATION -->
-    <section id="cancel">
-        <h2>Manage <span>Booking</span></h2>
-        <div class="cancel-box">
-            <h3 style="margin-bottom:1rem; font-size:1.1rem;">Cancel Appointment</h3>
-            <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:1.5rem;">To request a dynamic booking modification, type your registered plate code below:</p>
-            <div class="input-group"><input type="text" placeholder="E.g. LF61 REG" style="text-transform:uppercase; text-align:center;"></div>
-            <button class="btn-gold" style="background-color:#ef4444; color:white;" onclick="alert('Inquiry sent to system database. Admin check pending.')">Search & Cancel</button>
-        </div>
-    </section>
+    </main>
 
-    <!-- CONTACT -->
-    <section style="text-align:center;">
-        <h2>Contact <span>Us</span></h2>
-        <div class="contact-details">
-            <p>Direct Phone line: <a href="tel:07733808319">07733808319</a></p>
-            <p style="margin-top:1rem;">Email Address: <a href="mailto:spokesandspecs@gmail.com">spokesandspecs@gmail.com</a></p>
-        </div>
-    </section>
-
+    <!-- FOOTER LEDGER COMPLIANCE -->
     <footer>
-        <p>&copy; 2026 Spokes & Specs. Est. Grays, Essex. Fully Insured Master Mechanics & Detailers.</p>
+        <p style="margin-bottom: 1rem; color: var(--luxury-gold); font-weight: 500; letter-spacing: 0.05em;">SPOKES & SPECS &copy; 2026. ALL RIGHTS RESERVED.</p>
+        <p style="font-size: 0.75rem; color: #555;">Fully Insured Mobile Engineering Operations Framework. Registered Dispatch Hub: Grays, Essex.</p>
     </footer>
 
-    <!-- INTERACTION LOGIC SCRIPT -->
+    <!-- CLIENT INTERACTIVE SCRIPT LOGIC -->
     <script>
-        function toggleAccordion(element) {
-            const content = element.nextElementSibling;
-            const icon = element.querySelector('.accordion-icon');
-            if (content.style.maxHeight && content.style.maxHeight !== "0px") {
-                content.style.maxHeight = "0px";
-                icon.innerText = "+";
+        // Apple-style Dropdown Accordion Architecture
+        function handleDropdown(element) {
+            const bodyContent = element.nextElementSibling;
+            const iconMarker = element.querySelector('.dropdown-icon');
+            
+            if (bodyContent.style.maxHeight && bodyContent.style.maxHeight !== "0px") {
+                bodyContent.style.maxHeight = "0px";
+                iconMarker.style.transform = "rotate(0deg)";
+                iconMarker.innerText = "+";
             } else {
-                content.style.maxHeight = content.scrollHeight + "px";
-                icon.innerText = "−";
+                bodyContent.style.maxHeight = bodyContent.scrollHeight + "px";
+                iconMarker.style.transform = "rotate(180deg)";
+                iconMarker.innerText = "−";
             }
         }
 
-        function nextStep(stepNum) {
-            document.querySelectorAll('.form-step').forEach(step => step.classList.remove('active'));
-            document.getElementById('step' + stepNum).classList.add('active');
+        // Multi-Step Form Logic Flow State Handler
+        function renderStep(targetStepNum) {
+            document.querySelectorAll('.flow-step').forEach(block => block.classList.remove('active'));
+            document.getElementById('stepSegment-' + targetStepNum).classList.add('active');
         }
 
-        function selectDate(element) {
-            document.querySelectorAll('.cal-day').forEach(d => d.style.background = '#0a0a0a').style.color = 'white';
-            element.style.background = 'var(--gold)';
-            element.style.color = 'black';
-            document.getElementById('selectedDateVal').value = element.innerText.replace('\n', ' ');
+        // Dependent Choice Control Logic Engine (Bundle Lockout)
+        function evaluateConstraints() {
+            const modularContainer = document.getElementById('modular-options-container');
+            const lockoutWarningText = document.getElementById('lockout-warning');
+            const isCustomProfileActive = document.getElementById('bundle-none').checked;
+            const modularInputs = modularContainer.querySelectorAll('input[type="checkbox"]');
+
+            if (!isCustomProfileActive) {
+                // Lockout individual configurations because a bundle handles it seamlessly
+                modularInputs.forEach(box => {
+                    box.checked = false;
+                    box.disabled = true;
+                });
+                modularContainer.style.opacity = "0.2";
+                modularContainer.style.pointerEvents = "none";
+                lockoutWarningText.style.display = "block";
+            } else {
+                // Re-enable individual selections
+                modularInputs.forEach(box => {
+                    box.disabled = false;
+                });
+                modularContainer.style.opacity = "1";
+                modularContainer.style.pointerEvents = "auto";
+                lockoutWarningText.style.display = "none";
+            }
         }
 
-        function handleFormSubmit(e) {
-            e.preventDefault();
-            alert('Enquiry Submitted Successfully! (Connect an active processing form webhook to log appointments).');
+        // Selection engine for mock schedule allocations
+        function selectTimeSlot(element) {
+            document.querySelectorAll('.calendar-slot').forEach(slot => slot.classList.remove('selected'));
+            element.classList.add('selected');
+            document.getElementById('internalSelectedTime').value = element.innerText.replace('\n', ' ');
         }
+
+        // Execute form logging action simulation
+        function executeFinalBooking(event) {
+            event.preventDefault();
+            alert('Enquiry Protocol Logged. Transaction packet generated successfully and forwarded to administrator dashboard.');
+        }
+
+        // Apple Scroll-bound Cinematic Perspective Simulation Engine (BMW M3 Frame Map)
+        window.addEventListener('scroll', () => {
+            const currentScrollTop = window.scrollY;
+            const absoluteMaxHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollRatio = absoluteMaxHeight > 0 ? (currentScrollTop / absoluteMaxHeight) : 0;
+            
+            // Translate scroll coordinates into 3D isometric perspectives shifting camera angle parameters dynamically
+            const angularRotationY = scrollRatio * 360; 
+            const translateOffsetZ = Math.sin(scrollRatio * Math.PI) * 120; 
+
+            const leftBox = document.getElementById('left-viewport');
+            const rightBox = document.getElementById('right-viewport');
+
+            if (leftBox && rightBox) {
+                leftBox.style.transform = `rotateY(${angularRotationY}deg) translateZ(${translateOffsetZ}px) scale(${1 + (scrollRatio * 0.15)})`;
+                rightBox.style.transform = `rotateY(${-angularRotationY}deg) translateZ(${translateOffsetZ}px) scale(${1 + (scrollRatio * 0.15)})`;
+            }
+        });
     </script>
 </body>
 </html>
