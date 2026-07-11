@@ -76,7 +76,7 @@
             height: 100%;
             background-size: cover;
             background-position: center;
-            transition: opacity 0.4s ease-in-out, transform 0.1s ease-out;
+            transition: opacity 0.5s ease-in-out, transform 0.1s ease-out;
             opacity: 0;
         }
 
@@ -889,11 +889,43 @@
         document.addEventListener("DOMContentLoaded", () => {
             generateDynamicCalendar();
             
-            // Connect your HTML search button directly to the lookup script logic safely
+            // Connect search button safely
             const searchBtn = document.getElementById("btn-lookup-search");
             if (searchBtn) {
                 searchBtn.addEventListener("click", searchExistingBooking);
             }
+
+            // --- SYNCED SCROLL PARALLAX CAMERA ENGINE ---
+            window.addEventListener("scroll", () => {
+                const scrolled = window.pageYOffset;
+                const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                if (maxScroll <= 0) return;
+                
+                const scrollFraction = scrolled / maxScroll;
+                
+                // Track 4 distinct frame intervals evenly over total length
+                let targetFrame = 1;
+                if (scrollFraction > 0.25) targetFrame = 2;
+                if (scrollFraction > 0.50) targetFrame = 3;
+                if (scrollFraction > 0.75) targetFrame = 4;
+                
+                // Update opacity on left and right camera panels simultaneously
+                ["left", "right"].forEach(side => {
+                    for (let f = 1; f <= 4; f++) {
+                        const frameEl = document.getElementById(`${side}-f${f}`);
+                        if (frameEl) {
+                            if (f === targetFrame) {
+                                frameEl.classList.add("active");
+                                // Add a subtle natural motion shift inside viewport boundary
+                                frameEl.style.transform = `translateY(${(scrollFraction * -20)}px) scale(1.05)`;
+                            } else {
+                                frameEl.classList.remove("active");
+                                frameEl.style.transform = "none";
+                            }
+                        }
+                    }
+                });
+            });
         });
 
         // Dynamic Accordion System
@@ -951,8 +983,7 @@
             const workingHours = ["09:00", "11:30", "14:00", "16:30"];
             const daysToAdvance = 7;
 
-            // Updated deployment URL
-            const webAppUrl = "https://script.google.com/macros/s/AKfycbxZTWS7XVtYjiZg5rjCUpqOc9WHjgKKpXzI7BaRBjcGlYrYYnqikO00C7uB7HAVSPC__g/exec";
+            const webAppUrl = "https://script.google.com/macros/s/AKfycbz8jXQBfD29FVLHSTLeufbLRxk2E168mOT2iHVZAisCcz-s54gvCKZ4Oz-oPnAZMOflXA/exec";
 
             fetch(webAppUrl)
                 .then(response => response.json())
@@ -1038,8 +1069,7 @@
                 slot: chosenSlot
             };
 
-            // Updated deployment URL
-            const webAppUrl = "https://script.google.com/macros/s/AKfycbxZTWS7XVtYjiZg5rjCUpqOc9WHjgKKpXzI7BaRBjcGlYrYYnqikO00C7uB7HAVSPC__g/exec";
+            const webAppUrl = "https://script.google.com/macros/s/AKfycbz8jXQBfD29FVLHSTLeufbLRxk2E168mOT2iHVZAisCcz-s54gvCKZ4Oz-oPnAZMOflXA/exec";
 
             fetch(webAppUrl, {
                 method: 'POST',
@@ -1073,8 +1103,7 @@
             errorElement.innerText = "Searching our ledger registry...";
             errorElement.style.display = "block";
 
-            // Updated deployment URL
-            const webAppUrl = "https://script.google.com/macros/s/AKfycbxZTWS7XVtYjiZg5rjCUpqOc9WHjgKKpXzI7BaRBjcGlYrYYnqikO00C7uB7HAVSPC__g/exec";
+            const webAppUrl = "https://script.google.com/macros/s/AKfycbz8jXQBfD29FVLHSTLeufbLRxk2E168mOT2iHVZAisCcz-s54gvCKZ4Oz-oPnAZMOflXA/exec";
             
             fetch(`${webAppUrl}?action=lookup&vrm=${encodeURIComponent(searchInput)}`)
                 .then(res => res.json())
