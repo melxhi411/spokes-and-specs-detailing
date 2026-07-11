@@ -1000,9 +1000,27 @@ function generateDynamicCalendar() {
             }
 
             let selectedTier = "Custom Modular Package Selection";
-            if (document.getElementById('bundle-1').checked) selectedTier = "Opt 1: Basic Full Detail Portfolio";
-            if (document.getElementById('bundle-2').checked) selectedTier = "Opt 2: Deep Full Detail Portfolio";
-            if (document.getElementById('bundle-3').checked) selectedTier = "Opt 3: Deep Full Detail Portfolio + Ceramic UV Armor";
+    if (document.getElementById('bundle-1').checked) selectedTier = "Opt 1: Basic Full Detail Portfolio";
+    if (document.getElementById('bundle-2').checked) selectedTier = "Opt 2: Deep Full Detail Portfolio";
+    if (document.getElementById('bundle-3').checked) selectedTier = "Opt 3: Deep Full Detail Portfolio + Ceramic UV Armor";
+
+    // If it's a modular package, scan the custom checkboxes and overwrite the text
+    if (selectedTier === "Custom Modular Package Selection") {
+        let selectedModules = [];
+        // This looks for all checkboxes on your page that are checked, excluding your 3 main bundles
+        document.querySelectorAll('input[type="checkbox"]:checked').forEach(box => {
+            if (box.id !== 'bundle-1' && box.id !== 'bundle-2' && box.id !== 'bundle-3') {
+                // Tries to get clean text label info next to or inside the box layout
+                let labelText = box.closest('label') ? box.closest('label').innerText.trim() : box.value;
+                // If it grabs a huge text block, clean it up or just use the box value attribute
+                if (labelText.length > 30) labelText = box.value; 
+                selectedModules.push(labelText);
+            }
+        });
+        if (selectedModules.length > 0) {
+            selectedTier = "Modular: " + selectedModules.join(" + ");
+        }
+    }
 
             const payload = {
                 name: document.getElementById('client_name').value,
