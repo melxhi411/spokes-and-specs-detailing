@@ -944,7 +944,7 @@ function generateDynamicCalendar() {
     const daysToAdvance = 7;
 
     // Fetch the booked slots from your Google Sheet backend deployment
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbwZnCHEgP30_RxcXWkXT97z84stAlGuw8jLm9Y8Fny12e9pBFViTE5zSeheWLGyg6PdQg/exec"; // <-- Paste your Apps Script Web App URL string here
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbxZTWS7XVtYjiZg5rjCUpqOc9WHjgKKpXzI7BaRBjcGlYrYYnqikO00C7uB7HAVSPC__g/exec"; // <-- Paste your Apps Script Web App URL string here
 
     fetch(webAppUrl)
         .then(response => response.json())
@@ -1040,7 +1040,7 @@ function generateDynamicCalendar() {
             };
 
             // ⚠️ CRITICAL STEP: Paste your deployment URL from Google Apps Script inside the quotes below!
-            const webAppUrl = "https://script.google.com/macros/s/AKfycbwZnCHEgP30_RxcXWkXT97z84stAlGuw8jLm9Y8Fny12e9pBFViTE5zSeheWLGyg6PdQg/exec";
+            const webAppUrl = "https://script.google.com/macros/s/AKfycbxZTWS7XVtYjiZg5rjCUpqOc9WHjgKKpXzI7BaRBjcGlYrYYnqikO00C7uB7HAVSPC__g/exec";
 
             fetch(webAppUrl, {
                 method: "POST",
@@ -1083,7 +1083,73 @@ function generateDynamicCalendar() {
                     }
                 }
             }
+ // --- DYNAMICALLY INJECT MANAGE BOOKING INTERFACE ---
+document.addEventListener("DOMContentLoaded", () => {
+    // Look for the element where the dynamic calendar grid lives
+    const calendarElement = document.querySelector(".calendar-ui");
+    if (calendarElement) {
+        // Create a wrapper container for the lookup box
+        const lookupWrapper = document.createElement("div");
+        lookupWrapper.className = "booking-lookup-container";
+        lookupWrapper.style.cssText = "max-width: 500px; margin: 40px auto; padding: 20px; background: #1e1e1e; border-radius: 8px; border: 1px solid #333; text-align: center;";
+        
+        lookupWrapper.innerHTML = `
+            <h3 style="color: #fff; margin-top: 0; font-family: sans-serif;">Manage or Cancel an Existing Booking</h3>
+            <p style="color: #aaa; font-size: 14px; font-family: sans-serif;">Enter your vehicle registration plate below to look up your appointment details.</p>
+            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
+                <input type="text" id="lookup-vrm-input" placeholder="E.g. LN12ABC" style="padding: 10px; border-radius: 4px; border: 1px solid #444; background: #111; color: #fff; text-transform: uppercase; width: 60%;">
+                <button id="btn-lookup-search" style="background: #00bcd4; color: #000; border: none; padding: 10px 15px; font-weight: bold; border-radius: 4px; cursor: pointer;">Find Booking</button>
+            </div>
+            <p id="lookup-error-msg" style="color: #ff4d4d; font-size: 13px; margin-top: 10px; display: none; font-family: sans-serif;"></p>
+        `;
+        
+        // Append it neatly right underneath the calendar block section area
+        calendarElement.parentNode.appendChild(lookupWrapper);
+        
+        // Attach the search trigger event listener to the button
+        document.getElementById("btn-lookup-search").addEventListener("click", searchExistingBooking);
+    }
+});
+
+// --- BACKEND SPECIFIC RECORD LOOKUP ENGINE ---
+function searchExistingBooking() {
+    const searchInput = document.getElementById('lookup-vrm-input').value.trim().toUpperCase();
+    const errorElement = document.getElementById('lookup-error-msg');
+    
+    if (!searchInput) {
+        errorElement.innerText = "Please enter your vehicle registration number.";
+        errorElement.style.display = "block";
+        return;
+    }
+    
+    errorElement.style.color = "#00bcd4";
+    errorElement.innerText = "Searching our ledger registry...";
+    errorElement.style.display = "block";
+
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbxZTWS7XVtYjiZg5rjCUpqOc9WHjgKKpXzI7BaRBjcGlYrYYnqikO00C7uB7HAVSPC__g/exec";
+    
+    fetch(`${webAppUrl}?action=lookup&vrm=${encodeURIComponent(searchInput)}`)
+        .then(res => res.json())
+        .then(result => {
+            if (result.status === "success") {
+                errorElement.style.display = "none";
+                
+                // Route the data straight to your cancel page layout variables
+                const redirectUrl = `./cancel.html?row=${result.rowId}&name=${encodeURIComponent(result.name)}&vrm=${encodeURIComponent(result.vrm)}&vehicle=${encodeURIComponent(result.vehicle)}&package=${encodeURIComponent(result.package)}&slot=${encodeURIComponent(result.slot)}`;
+                window.location.href = redirectUrl;
+            } else {
+                errorElement.style.color = "#ff4d4d";
+                errorElement.innerText = "No active booking found for that vehicle registration plate. Please check your spelling.";
+            }
+        })
+        .catch(err => {
+            console.error("Lookup query error:", err);
+            errorElement.style.color = "#ff4d4d";
+            errorElement.innerText = "Connection timed out. Please try again later.";
         });
-    </script>
+}
+
+// Keep all code blocks securely wrapped inside these core layout closing markers at the very end
+</script>
 </body>
 </html>
