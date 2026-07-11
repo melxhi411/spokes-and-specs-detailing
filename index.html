@@ -861,16 +861,18 @@
             </div>
         </section>
 
+        <!-- REVOCATION & ADJUSTMENTS -->
         <section style="border-bottom:none;">
             <h2 class="section-title">Revocation <span>& Adjustments</span></h2>
             <div class="interactive-form-box" style="background-color: #111; border-color: rgba(239, 68, 68, 0.2); text-align: center;">
                 <h3 style="margin-bottom: 0.8rem; font-size: 1.15rem;">Request Booking Cancellation</h3>
                 <p style="color: var(--muted-gray); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.4;">To withdraw your appointment frame, execute a direct ledger query sequence using your VRM configuration below:</p>
                 <div class="field-group">
-                    <input type="text" placeholder="ENTER REGISTRATION CODE" style="text-transform: uppercase; text-align: center; max-width: 320px; margin: 0 auto; letter-spacing: 0.1em; border-color: rgba(255,255,255,0.15);">
+                    <input type="text" id="lookup-vrm-input" placeholder="ENTER REGISTRATION CODE" style="text-transform: uppercase; text-align: center; max-width: 320px; margin: 0 auto; letter-spacing: 0.1em; border-color: rgba(255,255,255,0.15);">
                 </div>
+                <p id="lookup-error-msg" style="color: #00bcd4; font-size: 13px; margin-top: 15px; display: none; font-family: sans-serif;"></p>
                 <div style="margin-top: 1.5rem;">
-                    <button class="btn-nav-step" style="background-color: #ef4444; color: white; max-width: 240px; display: inline-block;" onclick="alert('Query transmitted. Secure internal registry confirmation sequence pending manual administrative clearance.')">Search & Revoke Slot</button>
+                    <button id="btn-lookup-search" class="btn-nav-step" style="background-color: #ef4444; color: white; max-width: 240px; display: inline-block;">Search & Revoke Slot</button>
                 </div>
             </div>
         </section>
@@ -886,6 +888,12 @@
         // Start up functions
         document.addEventListener("DOMContentLoaded", () => {
             generateDynamicCalendar();
+            
+            // Connect your HTML search button directly to the lookup script logic safely
+            const searchBtn = document.getElementById("btn-lookup-search");
+            if (searchBtn) {
+                searchBtn.addEventListener("click", searchExistingBooking);
+            }
         });
 
         // Dynamic Accordion System
@@ -934,186 +942,158 @@
             }
         }
 
-        // // --- LIVE ROLLING CALENDAR SCHEDULER ENGINE ---
-function generateDynamicCalendar() {
-    const calendarGrid = document.querySelector(".calendar-ui");
-    if (!calendarGrid) return;
+        // --- LIVE ROLLING CALENDAR SCHEDULER ENGINE ---
+        function generateDynamicCalendar() {
+            const calendarGrid = document.querySelector(".calendar-ui");
+            if (!calendarGrid) return;
 
-    calendarGrid.innerHTML = "";
-    const workingHours = ["09:00", "11:30", "14:00", "16:30"];
-    const daysToAdvance = 7;
+            calendarGrid.innerHTML = "";
+            const workingHours = ["09:00", "11:30", "14:00", "16:30"];
+            const daysToAdvance = 7;
 
-    // Fetch the booked slots from your Google Sheet backend deployment
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbxZTWS7XVtYjiZg5rjCUpqOc9WHjgKKpXzI7BaRBjcGlYrYYnqikO00C7uB7HAVSPC__g/exec"; // <-- Paste your Apps Script Web App URL string here
+            // Updated deployment URL
+            const webAppUrl = "https://script.google.com/macros/s/AKfycbxZTWS7XVtYjiZg5rjCUpqOc9WHjgKKpXzI7BaRBjcGlYrYYnqikO00C7uB7HAVSPC__g/exec";
 
-    fetch(webAppUrl)
-        .then(response => response.json())
-        .then(bookedSlots => {
-            
-            for (let i = 1; i <= daysToAdvance; i++) {
-                const currentDate = new Date();
-                currentDate.setDate(currentDate.getDate() + i);
+            fetch(webAppUrl)
+                .then(response => response.json())
+                .then(bookedSlots => {
+                    for (let i = 1; i <= daysToAdvance; i++) {
+                        const currentDate = new Date();
+                        currentDate.setDate(currentDate.getDate() + i);
 
-                // Skip Sundays automatically
-                if (currentDate.getDay() === 0) continue;
+                        if (currentDate.getDay() === 0) continue;
 
-                const formattedDay = currentDate.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+                        const formattedDay = currentDate.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
 
-                workingHours.forEach(time => {
-                    // Match the format exact text logic string: "Mon 13 Jul at 11:30"
-                    const currentSlotString = `${formattedDay} at ${time}`;
-                    const isBooked = bookedSlots.includes(currentSlotString.trim());
+                        workingHours.forEach(time => {
+                            const currentSlotString = `${formattedDay} at ${time}`;
+                            const isBooked = bookedSlots.includes(currentSlotString.trim());
 
-                    const slotCard = document.createElement("div");
-                    slotCard.className = "calendar-slot";
-                    
-                    if (isBooked) {
-                        slotCard.classList.add("booked-out");
-                        slotCard.style.opacity = "0.3";
-                        slotCard.style.pointerEvents = "none";
-                        slotCard.innerHTML = `${formattedDay}<br><strong>${time}</strong><br><span style="font-size:10px;color:red;">Booked Out</span>`;
-                    } else {
-                        slotCard.innerHTML = `${formattedDay}<br><strong>${time}</strong>`;
-                        slotCard.onclick = () => {
-                            document.querySelectorAll('.calendar-slot').forEach(s => s.classList.remove('selected'));
-                            slotCard.classList.add('selected');
-                            document.getElementById('internalSelectedTime').value = currentSlotString;
-                        };
+                            const slotCard = document.createElement("div");
+                            slotCard.className = "calendar-slot";
+                            
+                            if (isBooked) {
+                                slotCard.classList.add("booked-out");
+                                slotCard.style.opacity = "0.3";
+                                slotCard.style.pointerEvents = "none";
+                                slotCard.innerHTML = `${formattedDay}<br><strong>${time}</strong><br><span style="font-size:10px;color:red;">Booked Out</span>`;
+                            } else {
+                                slotCard.innerHTML = `${formattedDay}<br><strong>${time}</strong>`;
+                                slotCard.onclick = () => {
+                                    document.querySelectorAll('.calendar-slot').forEach(s => s.classList.remove('selected'));
+                                    slotCard.classList.add('selected');
+                                    document.getElementById('internalSelectedTime').value = currentSlotString;
+                                };
+                            }
+                            calendarGrid.appendChild(slotCard);
+                        });
                     }
-
-                    calendarGrid.appendChild(slotCard);
-                });
-            }
-
-        })
-        .catch(err => console.error("Error loading booked slots:", err));
-}
+                })
+                .catch(err => console.error("Error loading booked slots:", err));
+        }
 
         // --- SECURE FREE GOOGLE SHEETS FORM HANDLER ---
-function executeFinalBooking(event) {
-    event.preventDefault();
+        function executeFinalBooking(event) {
+            event.preventDefault();
 
-    const chosenSlot = document.getElementById('internalSelectedTime').value;
-    if (!chosenSlot) {
-        alert("Action Required: Please select an appointment time slot on Step 3.");
-        return;
-    }
+            const chosenSlot = document.getElementById('internalSelectedTime').value;
+            if (!chosenSlot) {
+                alert("Action Required: Please select an appointment time slot on Step 3.");
+                return;
+            }
 
-    let selectedTier = "Custom Modular Package Selection";
-    if (document.getElementById('bundle-1').checked) selectedTier = "Opt 1: Basic Full Detail Portfolio";
-    if (document.getElementById('bundle-2').checked) selectedTier = "Opt 2: Deep Full Detail Portfolio";
-    if (document.getElementById('bundle-3').checked) selectedTier = "Opt 3: Deep Full Detail Portfolio + Ceramic UV Armor";
+            let selectedTier = "Custom Modular Package Selection";
+            if (document.getElementById('bundle-1').checked) selectedTier = "Opt 1: Basic Full Detail Portfolio";
+            if (document.getElementById('bundle-2').checked) selectedTier = "Opt 2: Deep Full Detail Portfolio";
+            if (document.getElementById('bundle-3').checked) selectedTier = "Opt 3: Deep Full Detail Portfolio + Ceramic UV Armor";
 
-    // If it's a modular package, scan the custom checkboxes and overwrite the text
-    if (selectedTier === "Custom Modular Package Selection") {
-        let selectedModules = [];
-        document.querySelectorAll('input[type="checkbox"]:checked').forEach(box => {
-            if (box.id !== 'bundle-1' && box.id !== 'bundle-2' && box.id !== 'bundle-3') {
-                let labelElement = document.querySelector(`label[for="${box.id}"]`) || box.closest('label');
-                let labelText = labelElement ? labelElement.innerText.trim() : "";
-                
-                if (labelText && labelText.length < 50) {
-                    selectedModules.push(labelText);
-                } else if (box.name) {
-                    selectedModules.push(box.name);
+            if (selectedTier === "Custom Modular Package Selection") {
+                let selectedModules = [];
+                document.querySelectorAll('input[type="checkbox"]:checked').forEach(box => {
+                    if (box.id !== 'bundle-1' && box.id !== 'bundle-2' && box.id !== 'bundle-3') {
+                        let labelElement = document.querySelector(`label[for="${box.id}"]`) || box.closest('label');
+                        let labelText = labelElement ? labelElement.innerText.trim() : "";
+                        
+                        if (labelText && labelText.length < 50) {
+                            selectedModules.push(labelText);
+                        } else if (box.name) {
+                            selectedModules.push(box.name);
+                        }
+                    }
+                });
+                if (selectedModules.length > 0) {
+                    selectedTier = "Modular: " + selectedModules.join(" + ");
                 }
             }
-        });
-        if (selectedModules.length > 0) {
-            selectedTier = "Modular: " + selectedModules.join(" + ");
+
+            const payload = {
+                origin: window.location.origin,
+                name: document.getElementById('client_name').value,
+                mobile: document.getElementById('client_mobile').value,
+                address: document.getElementById('client_address').value,
+                vrm: document.getElementById('client_vrm').value.toUpperCase(),
+                vehicle: document.getElementById('client_vehicle').value,
+                colour: document.getElementById('client_colour').value,
+                package: selectedTier,
+                slot: chosenSlot
+            };
+
+            // Updated deployment URL
+            const webAppUrl = "https://script.google.com/macros/s/AKfycbxZTWS7XVtYjiZg5rjCUpqOc9WHjgKKpXzI7BaRBjcGlYrYYnqikO00C7uB7HAVSPC__g/exec";
+
+            fetch(webAppUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams(payload)
+            })
+            .then(() => {
+                const cancelPageUrl = `./cancel.html?name=${encodeURIComponent(payload.name)}&vrm=${encodeURIComponent(payload.vrm)}&vehicle=${encodeURIComponent(payload.vehicle)}&package=${encodeURIComponent(payload.package)}&slot=${encodeURIComponent(payload.slot)}`;
+                window.location.href = cancelPageUrl;
+            })
+            .catch(err => {
+                console.error("Error submitting booking:", err);
+                alert("Booking submission failed. Please try again.");
+            });
         }
-    }
 
-    const payload = {
-        origin: window.location.origin,
-        name: document.getElementById('client_name').value,
-        mobile: document.getElementById('client_mobile').value,
-        address: document.getElementById('client_address').value,
-        vrm: document.getElementById('client_vrm').value.toUpperCase(),
-        vehicle: document.getElementById('client_vehicle').value,
-        colour: document.getElementById('client_colour').value,
-        package: selectedTier,
-        slot: chosenSlot
-    };
-
-    // CRITICAL STEP: Paste your exact new Apps Script Web App URL string here
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbxZTWS7XVtYjiZg5rjCUpqOc9WHjgKKpXzI7BaRBjcGlYrYYnqikO00C7uB7HAVSPC__g/exec";
-
-    fetch(webAppUrl, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(payload)
-    })
-    .then(() => {
-        // Redirect directly to cancel page on success
-        const cancelPageUrl = `./cancel.html?name=${encodeURIComponent(payload.name)}&vrm=${encodeURIComponent(payload.vrm)}&vehicle=${encodeURIComponent(payload.vehicle)}&package=${encodeURIComponent(payload.package)}&slot=${encodeURIComponent(payload.slot)}`;
-        window.location.href = cancelPageUrl;
-    })
-    .catch(err => {
-        console.error("Error submitting booking:", err);
-        alert("Booking submission failed. Please try again.");
-    });
-}
-
-// --- DYNAMICALLY INJECT MANAGE BOOKING INTERFACE ---
-document.addEventListener("DOMContentLoaded", () => {
-    const calendarElement = document.querySelector(".calendar-ui");
-    if (calendarElement) {
-        const lookupWrapper = document.createElement("div");
-        lookupWrapper.className = "booking-lookup-container";
-        lookupWrapper.style.cssText = "max-width: 500px; margin: 40px auto; padding: 20px; background: #1e1e1e; border-radius: 8px; border: 1px solid #333; text-align: center;";
-        
-        lookupWrapper.innerHTML = `
-            <h3 style="color: #fff; margin-top: 0; font-family: sans-serif;">Manage or Cancel an Existing Booking</h3>
-            <p style="color: #aaa; font-size: 14px; font-family: sans-serif;">Enter your vehicle registration plate below to look up your appointment details.</p>
-            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
-                <input type="text" id="lookup-vrm-input" placeholder="E.g. LN12ABC" style="padding: 10px; border-radius: 4px; border: 1px solid #444; background: #111; color: #fff; text-transform: uppercase; width: 60%;">
-                <button id="btn-lookup-search" style="background: #00bcd4; color: #000; border: none; padding: 10px 15px; font-weight: bold; border-radius: 4px; cursor: pointer;">Find Booking</button>
-            </div>
-            <p id="lookup-error-msg" style="color: #ff4d4d; font-size: 13px; margin-top: 10px; display: none; font-family: sans-serif;"></p>
-        `;
-        
-        calendarElement.parentNode.appendChild(lookupWrapper);
-        document.getElementById("btn-lookup-search").addEventListener("click", searchExistingBooking);
-    }
-});
-
-// --- BACKEND SPECIFIC RECORD LOOKUP ENGINE ---
-function searchExistingBooking() {
-    const searchInput = document.getElementById('lookup-vrm-input').value.trim().toUpperCase();
-    const errorElement = document.getElementById('lookup-error-msg');
-    
-    if (!searchInput) {
-        errorElement.innerText = "Please enter your vehicle registration number.";
-        errorElement.style.display = "block";
-        return;
-    }
-    
-    errorElement.style.color = "#00bcd4";
-    errorElement.innerText = "Searching our ledger registry...";
-    errorElement.style.display = "block";
-
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbxZTWS7XVtYjiZg5rjCUpqOc9WHjgKKpXzI7BaRBjcGlYrYYnqikO00C7uB7HAVSPC__g/exec";
-    
-    fetch(`${webAppUrl}?action=lookup&vrm=${encodeURIComponent(searchInput)}`)
-        .then(res => res.json())
-        .then(result => {
-            if (result.status === "success") {
-                errorElement.style.display = "none";
-                const redirectUrl = `./cancel.html?row=${result.rowId}&name=${encodeURIComponent(result.name)}&vrm=${encodeURIComponent(result.vrm)}&vehicle=${encodeURIComponent(result.vehicle)}&package=${encodeURIComponent(result.package)}&slot=${encodeURIComponent(result.slot)}`;
-                window.location.href = redirectUrl;
-            } else {
+        // --- BACKEND SPECIFIC RECORD LOOKUP ENGINE ---
+        function searchExistingBooking() {
+            const searchInput = document.getElementById('lookup-vrm-input').value.trim().toUpperCase();
+            const errorElement = document.getElementById('lookup-error-msg');
+            
+            if (!searchInput) {
                 errorElement.style.color = "#ff4d4d";
-                errorElement.innerText = "No active booking found for that vehicle registration plate. Please check your spelling.";
+                errorElement.innerText = "Please enter your vehicle registration number.";
+                errorElement.style.display = "block";
+                return;
             }
-        })
-        .catch(err => {
-            console.error("Lookup query error:", err);
-            errorElement.style.color = "#ff4d4d";
-            errorElement.innerText = "Connection timed out. Please try again later.";
-        });
-}
-</script>
+            
+            errorElement.style.color = "#00bcd4";
+            errorElement.innerText = "Searching our ledger registry...";
+            errorElement.style.display = "block";
+
+            // Updated deployment URL
+            const webAppUrl = "https://script.google.com/macros/s/AKfycbxZTWS7XVtYjiZg5rjCUpqOc9WHjgKKpXzI7BaRBjcGlYrYYnqikO00C7uB7HAVSPC__g/exec";
+            
+            fetch(`${webAppUrl}?action=lookup&vrm=${encodeURIComponent(searchInput)}`)
+                .then(res => res.json())
+                .then(result => {
+                    if (result.status === "success") {
+                        errorElement.style.display = "none";
+                        const redirectUrl = `./cancel.html?row=${result.rowId}&name=${encodeURIComponent(result.name)}&vrm=${encodeURIComponent(result.vrm)}&vehicle=${encodeURIComponent(result.vehicle)}&package=${encodeURIComponent(result.package)}&slot=${encodeURIComponent(result.slot)}`;
+                        window.location.href = redirectUrl;
+                    } else {
+                        errorElement.style.color = "#ff4d4d";
+                        errorElement.innerText = "No active booking found for that vehicle registration plate. Please check your spelling.";
+                    }
+                })
+                .catch(err => {
+                    console.error("Lookup query error:", err);
+                    errorElement.style.color = "#ff4d4d";
+                    errorElement.innerText = "Connection timed out. Please try again later.";
+                });
+        }
+    </script>
 </body>
 </html>
