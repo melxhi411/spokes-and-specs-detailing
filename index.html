@@ -1007,14 +1007,19 @@ function generateDynamicCalendar() {
     // If it's a modular package, scan the custom checkboxes and overwrite the text
     if (selectedTier === "Custom Modular Package Selection") {
         let selectedModules = [];
-        // This looks for all checkboxes on your page that are checked, excluding your 3 main bundles
+        // Look for all custom checkboxes that are checked
         document.querySelectorAll('input[type="checkbox"]:checked').forEach(box => {
             if (box.id !== 'bundle-1' && box.id !== 'bundle-2' && box.id !== 'bundle-3') {
-                // Tries to get clean text label info next to or inside the box layout
-                let labelText = box.closest('label') ? box.closest('label').innerText.trim() : box.value;
-                // If it grabs a huge text block, clean it up or just use the box value attribute
-                if (labelText.length > 30) labelText = box.value; 
-                selectedModules.push(labelText);
+                // Find the text label element belonging to this specific checkbox
+                let labelElement = document.querySelector(`label[for="${box.id}"]`) || box.closest('label');
+                let labelText = labelElement ? labelElement.innerText.trim() : "";
+                
+                // If we found a valid label name, use it! Otherwise, fall back to a clean name attribute
+                if (labelText && labelText.length < 50) {
+                    selectedModules.push(labelText);
+                } else if (box.name) {
+                    selectedModules.push(box.name);
+                }
             }
         });
         if (selectedModules.length > 0) {
