@@ -944,7 +944,7 @@ function generateDynamicCalendar() {
     const daysToAdvance = 7;
 
     // Fetch the booked slots from your Google Sheet backend deployment
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbxfDyEJ3uYdmIzos647uU2ZvuK9dS2U7pjnoSKzz3HTmmyZrHe0GYeqI8jKMslmwDktyg/exec"; // <-- Paste your Apps Script Web App URL string here
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbwZnCHEgP30_RxcXWkXT97z84stAlGuw8jLm9Y8Fny12e9pBFViTE5zSeheWLGyg6PdQg/exec"; // <-- Paste your Apps Script Web App URL string here
 
     fetch(webAppUrl)
         .then(response => response.json())
@@ -1040,7 +1040,7 @@ function generateDynamicCalendar() {
             };
 
             // ⚠️ CRITICAL STEP: Paste your deployment URL from Google Apps Script inside the quotes below!
-            const webAppUrl = "https://script.google.com/macros/s/AKfycbxfDyEJ3uYdmIzos647uU2ZvuK9dS2U7pjnoSKzz3HTmmyZrHe0GYeqI8jKMslmwDktyg/exec";
+            const webAppUrl = "https://script.google.com/macros/s/AKfycbwZnCHEgP30_RxcXWkXT97z84stAlGuw8jLm9Y8Fny12e9pBFViTE5zSeheWLGyg6PdQg/exec";
 
             fetch(webAppUrl, {
                 method: "POST",
