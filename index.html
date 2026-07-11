@@ -990,16 +990,16 @@ function generateDynamicCalendar() {
 }
 
         // --- SECURE FREE GOOGLE SHEETS FORM HANDLER ---
-        function executeFinalBooking(event) {
-            event.preventDefault();
-            
-            const chosenSlot = document.getElementById('internalSelectedTime').value;
-            if (!chosenSlot) {
-                alert("Action Required: Please select an appointment time slot on Step 3.");
-                return;
-            }
+function executeFinalBooking(event) {
+    event.preventDefault();
 
-            let selectedTier = "Custom Modular Package Selection";
+    const chosenSlot = document.getElementById('internalSelectedTime').value;
+    if (!chosenSlot) {
+        alert("Action Required: Please select an appointment time slot on Step 3.");
+        return;
+    }
+
+    let selectedTier = "Custom Modular Package Selection";
     if (document.getElementById('bundle-1').checked) selectedTier = "Opt 1: Basic Full Detail Portfolio";
     if (document.getElementById('bundle-2').checked) selectedTier = "Opt 2: Deep Full Detail Portfolio";
     if (document.getElementById('bundle-3').checked) selectedTier = "Opt 3: Deep Full Detail Portfolio + Ceramic UV Armor";
@@ -1007,14 +1007,11 @@ function generateDynamicCalendar() {
     // If it's a modular package, scan the custom checkboxes and overwrite the text
     if (selectedTier === "Custom Modular Package Selection") {
         let selectedModules = [];
-        // Look for all custom checkboxes that are checked
         document.querySelectorAll('input[type="checkbox"]:checked').forEach(box => {
             if (box.id !== 'bundle-1' && box.id !== 'bundle-2' && box.id !== 'bundle-3') {
-                // Find the text label element belonging to this specific checkbox
                 let labelElement = document.querySelector(`label[for="${box.id}"]`) || box.closest('label');
                 let labelText = labelElement ? labelElement.innerText.trim() : "";
                 
-                // If we found a valid label name, use it! Otherwise, fall back to a clean name attribute
                 if (labelText && labelText.length < 50) {
                     selectedModules.push(labelText);
                 } else if (box.name) {
@@ -1027,68 +1024,42 @@ function generateDynamicCalendar() {
         }
     }
 
-            const payload = {
-                origin: window.location.origin, // <-- This sends your exact website URL dynamically
-                name: document.getElementById('client_name').value,
-                mobile: document.getElementById('client_mobile').value,
-                address: document.getElementById('client_address').value,
-                vrm: document.getElementById('client_vrm').value.toUpperCase(),
-                vehicle: document.getElementById('client_vehicle').value,
-                colour: document.getElementById('client_colour').value,
-                package: selectedTier,
-                slot: chosenSlot
-            };
+    const payload = {
+        origin: window.location.origin,
+        name: document.getElementById('client_name').value,
+        mobile: document.getElementById('client_mobile').value,
+        address: document.getElementById('client_address').value,
+        vrm: document.getElementById('client_vrm').value.toUpperCase(),
+        vehicle: document.getElementById('client_vehicle').value,
+        colour: document.getElementById('client_colour').value,
+        package: selectedTier,
+        slot: chosenSlot
+    };
 
-            // ⚠️ CRITICAL STEP: Paste your deployment URL from Google Apps Script inside the quotes below!
-            const webAppUrl = "https://script.google.com/macros/s/AKfycbxZTWS7XVtYjiZg5rjCUpqOc9WHjgKKpXzI7BaRBjcGlYrYYnqikO00C7uB7HAVSPC__g/exec";
+    // CRITICAL STEP: Paste your exact new Apps Script Web App URL string here
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbxZTWS7XVtYjiZg5rjCUpqOc9WHjgKKpXzI7BaRBjcGlYrYYnqikO00C7uB7HAVSPC__g/exec";
 
-            fetch(webAppUrl, {
-                method: "POST",
-                mode: "no-cors", 
-                cache: "no-cache",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            }).then(() => {
-                alert(`Booking Matrix Logged! Your slot (${chosenSlot}) has been tentatively locked. I will contact you shortly to confirm placement.`);
-                document.getElementById("masterForm").reset();
-                renderStep(1);
-                generateDynamicCalendar();
-            }).catch(err => {
-                console.error("Transmission Error:", err);
-                alert("Network Timeout. Security handshake failed. Please try again.");
-            });
-        }
+    fetch(webAppUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(payload)
+    })
+    .then(() => {
+        // Redirect directly to cancel page on success
+        const cancelPageUrl = `./cancel.html?name=${encodeURIComponent(payload.name)}&vrm=${encodeURIComponent(payload.vrm)}&vehicle=${encodeURIComponent(payload.vehicle)}&package=${encodeURIComponent(payload.package)}&slot=${encodeURIComponent(payload.slot)}`;
+        window.location.href = cancelPageUrl;
+    })
+    .catch(err => {
+        console.error("Error submitting booking:", err);
+        alert("Booking submission failed. Please try again.");
+    });
+}
 
-        // Background Scroll Parallax Router Engine
-        window.addEventListener('scroll', () => {
-            const currentScrollTop = window.scrollY;
-            const absoluteMaxHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const scrollRatio = absoluteMaxHeight > 0 ? (currentScrollTop / absoluteMaxHeight) : 0;
-            
-            let stageIndex = 1;
-            if (scrollRatio > 0.22) stageIndex = 2;
-            if (scrollRatio > 0.52) stageIndex = 3;
-            if (scrollRatio > 0.80) stageIndex = 4;
-
-            for (let side of ['left', 'right']) {
-                for (let i = 1; i <= 4; i++) {
-                    const frame = document.getElementById(`${side}-f${i}`);
-                    if (frame) {
-                        if (i === stageIndex) {
-                            frame.classList.add('active');
-                            frame.style.transform = `scale(${1.08 + (scrollRatio * 0.04)}) translateY(${(scrollRatio * -20)}px)`;
-                        } else {
-                            frame.classList.remove('active');
-                        }
-                    }
-                }
-            }
- // --- DYNAMICALLY INJECT MANAGE BOOKING INTERFACE ---
+// --- DYNAMICALLY INJECT MANAGE BOOKING INTERFACE ---
 document.addEventListener("DOMContentLoaded", () => {
-    // Look for the element where the dynamic calendar grid lives
     const calendarElement = document.querySelector(".calendar-ui");
     if (calendarElement) {
-        // Create a wrapper container for the lookup box
         const lookupWrapper = document.createElement("div");
         lookupWrapper.className = "booking-lookup-container";
         lookupWrapper.style.cssText = "max-width: 500px; margin: 40px auto; padding: 20px; background: #1e1e1e; border-radius: 8px; border: 1px solid #333; text-align: center;";
@@ -1103,10 +1074,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <p id="lookup-error-msg" style="color: #ff4d4d; font-size: 13px; margin-top: 10px; display: none; font-family: sans-serif;"></p>
         `;
         
-        // Append it neatly right underneath the calendar block section area
         calendarElement.parentNode.appendChild(lookupWrapper);
-        
-        // Attach the search trigger event listener to the button
         document.getElementById("btn-lookup-search").addEventListener("click", searchExistingBooking);
     }
 });
@@ -1133,8 +1101,6 @@ function searchExistingBooking() {
         .then(result => {
             if (result.status === "success") {
                 errorElement.style.display = "none";
-                
-                // Route the data straight to your cancel page layout variables
                 const redirectUrl = `./cancel.html?row=${result.rowId}&name=${encodeURIComponent(result.name)}&vrm=${encodeURIComponent(result.vrm)}&vehicle=${encodeURIComponent(result.vehicle)}&package=${encodeURIComponent(result.package)}&slot=${encodeURIComponent(result.slot)}`;
                 window.location.href = redirectUrl;
             } else {
@@ -1148,8 +1114,6 @@ function searchExistingBooking() {
             errorElement.innerText = "Connection timed out. Please try again later.";
         });
 }
-
-// Keep all code blocks securely wrapped inside these core layout closing markers at the very end
 </script>
 </body>
 </html>
