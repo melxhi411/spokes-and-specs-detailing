@@ -889,13 +889,13 @@
         document.addEventListener("DOMContentLoaded", () => {
             generateDynamicCalendar();
             
-            // Connect search button safely
+            // Connect search button safely and override any conflicting alerts
             const searchBtn = document.getElementById("btn-lookup-search");
             if (searchBtn) {
                 searchBtn.addEventListener("click", searchExistingBooking);
             }
 
-            // --- SYNCED SCROLL PARALLAX CAMERA ENGINE ---
+            // --- SYNCED SCROLL PARALLAX ENGINE ---
             window.addEventListener("scroll", () => {
                 const scrolled = window.pageYOffset;
                 const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
@@ -903,20 +903,17 @@
                 
                 const scrollFraction = scrolled / maxScroll;
                 
-                // Track 4 distinct frame intervals evenly over total length
                 let targetFrame = 1;
                 if (scrollFraction > 0.25) targetFrame = 2;
                 if (scrollFraction > 0.50) targetFrame = 3;
                 if (scrollFraction > 0.75) targetFrame = 4;
                 
-                // Update opacity on left and right camera panels simultaneously
                 ["left", "right"].forEach(side => {
                     for (let f = 1; f <= 4; f++) {
                         const frameEl = document.getElementById(`${side}-f${f}`);
                         if (frameEl) {
                             if (f === targetFrame) {
                                 frameEl.classList.add("active");
-                                // Add a subtle natural motion shift inside viewport boundary
                                 frameEl.style.transform = `translateY(${(scrollFraction * -20)}px) scale(1.05)`;
                             } else {
                                 frameEl.classList.remove("active");
@@ -983,7 +980,7 @@
             const workingHours = ["09:00", "11:30", "14:00", "16:30"];
             const daysToAdvance = 7;
 
-            const webAppUrl = "https://script.google.com/macros/s/AKfycbz8jXQBfD29FVLHSTLeufbLRxk2E168mOT2iHVZAisCcz-s54gvCKZ4Oz-oPnAZMOflXA/exec";
+            const webAppUrl = "https://script.google.com/macros/s/AKfycbxcUMIbokt1YELWw4j4ukyMxFWMSRSFQHiOg95fJWS9iF3qMH1YH0b7RsJlTIbudog1Rg/exec";
 
             fetch(webAppUrl)
                 .then(response => response.json())
@@ -1042,13 +1039,11 @@
                 let selectedModules = [];
                 document.querySelectorAll('input[type="checkbox"]:checked').forEach(box => {
                     if (box.id !== 'bundle-1' && box.id !== 'bundle-2' && box.id !== 'bundle-3') {
-                        let labelElement = document.querySelector(`label[for="${box.id}"]`) || box.closest('label');
+                        let labelElement = document.querySelector(`label[for="${box.id}"] span`) || document.querySelector(`label[for="${box.id}"]`);
                         let labelText = labelElement ? labelElement.innerText.trim() : "";
                         
-                        if (labelText && labelText.length < 50) {
+                        if (labelText) {
                             selectedModules.push(labelText);
-                        } else if (box.name) {
-                            selectedModules.push(box.name);
                         }
                     }
                 });
@@ -1069,7 +1064,7 @@
                 slot: chosenSlot
             };
 
-            const webAppUrl = "https://script.google.com/macros/s/AKfycbz8jXQBfD29FVLHSTLeufbLRxk2E168mOT2iHVZAisCcz-s54gvCKZ4Oz-oPnAZMOflXA/exec";
+            const webAppUrl = "https://script.google.com/macros/s/AKfycbxcUMIbokt1YELWw4j4ukyMxFWMSRSFQHiOg95fJWS9iF3qMH1YH0b7RsJlTIbudog1Rg/exec";
 
             fetch(webAppUrl, {
                 method: 'POST',
@@ -1078,8 +1073,9 @@
                 body: new URLSearchParams(payload)
             })
             .then(() => {
-                const cancelPageUrl = `./cancel.html?name=${encodeURIComponent(payload.name)}&vrm=${encodeURIComponent(payload.vrm)}&vehicle=${encodeURIComponent(payload.vehicle)}&package=${encodeURIComponent(payload.package)}&slot=${encodeURIComponent(payload.slot)}`;
-                window.location.href = cancelPageUrl;
+                // --- REDIRECT TO DEDICATED SUCCESS CARD PAGE ---
+                const successPageUrl = `./success.html?vehicle=${encodeURIComponent(payload.vehicle)}&package=${encodeURIComponent(payload.package)}`;
+                window.location.href = successPageUrl;
             })
             .catch(err => {
                 console.error("Error submitting booking:", err);
@@ -1103,7 +1099,7 @@
             errorElement.innerText = "Searching our ledger registry...";
             errorElement.style.display = "block";
 
-            const webAppUrl = "https://script.google.com/macros/s/AKfycbz8jXQBfD29FVLHSTLeufbLRxk2E168mOT2iHVZAisCcz-s54gvCKZ4Oz-oPnAZMOflXA/exec";
+            const webAppUrl = "https://script.google.com/macros/s/AKfycbxcUMIbokt1YELWw4j4ukyMxFWMSRSFQHiOg95fJWS9iF3qMH1YH0b7RsJlTIbudog1Rg/exec";
             
             fetch(`${webAppUrl}?action=lookup&vrm=${encodeURIComponent(searchInput)}`)
                 .then(res => res.json())
